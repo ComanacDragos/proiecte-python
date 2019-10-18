@@ -44,33 +44,92 @@ def remove_el (array,value):
 def expenses_types():
     return  ["water", "heating", "electricity", "gas", "other"]
 
+def print_simple_array (array):
+    count = 1
+    for i in array:
+        print (str(count) + ". " + str(i))
+        count = count+1
+
+def error_messages (error):
+    errorList = {
+        "1" : "Wrong apartment id",
+        "2" : "Wrong expense type",
+        "3" : "Wrong amount",
+        "4" : "<to> is missing",
+        "5" : "<with> is missing",
+        "6" : "The left operand is bigger than the right operand",
+        "7" : "There is no apartment with given id",
+        "8" : "There is no apartment with given expense",
+        "9" : "Wrong number of operands",
+        "10": "One of < | = | > is missing "
+        "11": "This kind of expense already exists for this apartment"
+    }
+    print(errorList[str(error)])
+
 # LIST feature
 
 def valid_list (params):
+    '''
+    Checks if the list command has a valid format
+    Input :
+        params: command values
+    Output:
+        0 if succes
+        a natural number otherwise
+
+    '''
     if len(params) == 1:
         try:
             id = int(params[0])
         except:
-            return 0
+            return 1
         else:
             if id <= 0:
-                return 0
+                return 1
     elif len(params) == 2:
         if params[0] not in ["<", "=", ">"]:
-            return 0
+            return 10
         try:
             amount = int (params[1])
         except:
-            return 0
+            return 3
         else:
             if amount <= 0 :
-                return 0
+                return 3
     else:
         if len(params) > 2:
-            return 0    
-    return 1
+            return 9    
+    return 0
 
-def display_expenses (expenses,params):
+def test_valid_list ():
+    assert valid_list ([15]) == 0
+    assert valid_list (["<", 10]) == 0
+    assert valid_list (["15"]) == 0
+    assert valid_list ([-15]) == 1
+    assert valid_list (["-15"]) == 1
+    assert valid_list ([">", -10]) == 3
+    assert valid_list (["="]) == 1
+    assert valid_list (["=",1,2,3]) == 9
+    assert valid_list (["asd"]) == 1
+    assert valid_list([]) == 0
+test_valid_list()
+
+def sum_expenses (expenses, apId):
+    sum = 0
+    for i in expenses:
+        if get_apartmentId(i) == apId:
+            sum = sum + get_amount(i)
+    return sum
+
+def test_sum_expenses ():
+    exp = []
+    append_to_array(exp,create_expense(1,"gas",2))    
+    append_to_array(exp,create_expense(1,"other",2))
+    append_to_array(exp,create_expense(1,"electricity",2))
+    append_to_array(exp,create_expense(1,"water",2))
+    assert sum_expenses(exp,1) == 8 
+
+def display_expenses (expenses):
     count = 1
     print("")
     for i in expenses:
@@ -81,16 +140,64 @@ def display_expenses (expenses,params):
         count = count+1
     print("")
 
-def test_valid_list ():
-    assert valid_list ([15]) == 1
-    assert valid_list (["<", 10]) == 1
-    assert valid_list (["15"]) == 1
-    assert valid_list ([-15]) == 0
-    assert valid_list (["-15"]) == 0
-    assert valid_list ([">", -10]) == 0
-    assert valid_list (["="]) == 0
-    assert valid_list (["=",1,2,3]) == 0
-    assert valid_list (["="]) == 0
+
+def list_expenses (expenses, params):
+    if valid_list(params) != 0 :
+        error_messages(valid_list(params))
+    else:
+
+        ok = 0
+        if len(params) == 0:
+            display_expenses(expenses)
+        elif len(params) == 1:
+            id = params[0]
+            for i in expenses:
+                if int(get_apartmentId(i)) == int(id):
+                    print ("For " + str(get_expenseType(i)) + " the amount is " + str(get_amount(i)))
+                    ok = 1
+            if ok == 0:
+                error_messages(7)
+            else:
+                print ("")
+
+        elif len(params) == 2:
+            amount = int(params[1])
+            apList = empty()
+            if params[0] == "<":
+                for i in expenses:
+                    id = int(get_apartmentId(i))
+                    if sum_expenses(expenses, id) < amount:
+                        append_to_array(apList,id)
+                        ok = 1
+                if ok == 1:
+                    print ("The apartments with total expenses less than " + str(amount) + " are:")
+
+            if params[0] == "=":
+                for i in expenses:
+                    id = get_apartmentId(i)
+                    if sum_expenses(expenses, id) == amount:
+                        append_to_array(apList,id)
+                        ok = 1
+                if ok == 1:
+                    print ("The apartments with total expenses equal to " + str(amount) + " are:")
+
+            if params[0] == ">":
+                for i in expenses:
+                    id = get_apartmentId(i)
+                    if sum_expenses(expenses, id) > amount:
+                        append_to_array(apList,id)
+                        ok = 1
+                if ok == 1:
+                     print ("The apartments with total expenses more than " + str(amount) + " are:")
+            if ok == 0:
+                print("There are no such apartments")
+            else:
+                print("")
+                apList = list (dict.fromkeys(apList))
+                apList.sort()
+                print_simple_array(apList)
+                print("")
+                
 
 
 def read_command ():
@@ -114,9 +221,30 @@ def valid_expense (expenses, params):
     input params:
         params - the expense
     output :
-        1 - valid data
-        0 - invalid data
+        0 - valid data
+        natural number - invalid data
     '''
+
+    try:
+        apartmentId = int(params[0])
+    except:
+        return 1
+    else:
+        if apartmentId <= 0:
+            return 1
+    try:
+        expenseType = params[1]
+    except:
+            return 2
+    else:
+        if expenseType not in expenses_types():
+            return 2
+        for i in expenses:
+            if apartmentId == get_apartmentId(i) and expenseType ==  get_expenseType(i):
+                return 11
+
+'''
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     try:
         apartmentId = int(params[0])
         expenseType = params[1]
@@ -132,20 +260,7 @@ def valid_expense (expenses, params):
             if apartmentId == get_apartmentId(i) and expenseType ==  get_expenseType(i):
                 return 0
     return 1
-   
-def add_expense (expenses, params):
-    '''
-    Adds an expense to the expense list
-    Input parameters :
-        - expenses - the list of expenses
-        - params - values of the expense
-    '''
-    if len(params) != 3 or valid_expense(expenses, params) == 0:
-        print("Invalid data")
-    else:
-        expense = create_expense(int(params[0]), params[1], int(params[2]))
-        append_to_array(expenses, expense)     
-
+'''
 def test_valid_expense ():
     '''
     Tests if the valid_expense function gives correct outputs
@@ -160,8 +275,21 @@ def test_valid_expense ():
     assert valid_expense (exp,[1, "heating", -4]) == 0
     assert valid_expense (exp,[1, "heatg", 3]) == 0
     assert valid_expense (exp,[1, "heatg", 3, 4]) == 0
-
 test_valid_expense()
+
+
+def add_expense (expenses, params):
+    '''
+    Adds an expense to the expense list
+    Input parameters :
+        - expenses - the list of expenses
+        - params - values of the expense
+    '''
+    if len(params) != 3 or valid_expense(expenses, params) == 0:
+        print("Invalid data")
+    else:
+        expense = create_expense(int(params[0]), params[1], int(params[2]))
+        append_to_array(expenses, expense)     
 
 
 # REMOVE expenses feature
@@ -192,7 +320,7 @@ def valid_removal (params):
         except:
             return 0
         else:
-            if first <= 0 or last <= 0 or first > last:
+            if first <= 0 or last <= 0 or first >= last:
                 return 0
             if params[1] != "to":
                 return 0
@@ -335,7 +463,7 @@ def init_expenses ():
 
 def start ():
     expenses = init_expenses()
-    commands = {"add" : add_expense, "remove" : remove_expense, "replace" : replace_amount, "list" : display_expenses}
+    commands = {"add" : add_expense, "remove" : remove_expense, "replace" : replace_amount, "list" : list_expenses}
     while True:
         cmdList = read_command()
         cmd = cmdList[0]
@@ -349,3 +477,4 @@ def start ():
             
         
 start()
+
