@@ -49,9 +49,17 @@ def init_expenses ():
     Initializes a list of expenses
     '''
     expenses = empty()
+
     append_to_array(expenses,create_expense(100,"water",40))
     append_to_array(expenses,create_expense(101,"electricity",60))
     append_to_array(expenses,create_expense(102,"other",20))
     append_to_array(expenses,create_expense(100,"heating",45))
     append_to_array(expenses,create_expense(101,"gas",100))
+    append_to_array(expenses,create_expense(100,"water",50))
+    append_to_array(expenses,create_expense(101,"electricity",70))
+    append_to_array(expenses,create_expense(102,"other",90))
+    append_to_array(expenses,create_expense(100,"heating",90))
+    append_to_array(expenses,create_expense(101,"gas",40))
+    
     return expenses
+

@@ -1,5 +1,4 @@
 from functions import *
-from domain import *
 
 def print_simple_array (array):
     '''
@@ -11,6 +10,17 @@ def print_simple_array (array):
     for i in array:
         print (str(count) + ". " + str(i))
         count = count+1
+
+def print_two_arrays (array1, array2):
+    '''
+    Function prints in a specific format 2 lists
+    Input parameters:
+        array1 - the list of either apartment ids or expense types
+        array2 - the list of amounts
+    '''
+    count = 0
+    for i,j in zip(array1, array2):
+        print("For " + str(i) + " the amount is " + str(j))
 
 def display_expenses (expenses):
     '''
@@ -43,7 +53,8 @@ def error_messages (error):
         "8" : "There is no apartment with given expense",
         "9" : "Wrong number of operands",
         "10": "One of < | = | > is missing ",
-        "11": "This kind of expense already exists for this apartment"
+        #"11": "This kind of expense already exists for this apartment"
+        "12" : "<apartment> or <type> is missing"
     }
     print("")
     print(errorList[str(error)])
@@ -84,7 +95,7 @@ For removing one or multiple expenses insert the following commands:
         remove <start apartment> to <end apartment>
         remove <type>
 
-For replacing the amount of an expense with another amount insert the following command:
+For replacing the amount of an expense with another amount insert the following command: 
         replace <apartment> <type> with <amount>
 
 For listing expenses insert the following commands:
@@ -95,8 +106,12 @@ For listing expenses insert the following commands:
 For exiting the program insert the following command:
         exit
 
-For the sum of the amount of all expense types insert the following command
+For the sum of the amount of all expenses of a given type insert the following command
         sum <type>
+
+For the maximum amount per each expense type for a given apartment insert the following command:
+        max <apartment>
+
 Where:
         <apartment> is the apartment id
         <type> is the expense type
@@ -279,6 +294,7 @@ def replace_amount (expenses, params):
             if int(params[0]) == int(id) and params[1] == expType:
                 set_amount(i, params[3])
                 ok = 1
+                break
         if ok == 0:
             print ("The requested expense does not exist")
         else:
@@ -298,10 +314,7 @@ def sum (expenses,params):
         error_messages(valid)
     else:
         expenseType = params[0]
-        s = 0
-        for i in expenses:
-            if expenseType == get_expenseType(i):
-                s = s+get_amount(i)
+        s = sum_expenses_types(expenses, expenseType)
         if s == 0:
             print("")
             print("There are no apartments with given expense")
@@ -311,19 +324,68 @@ def sum (expenses,params):
             print("The total amount for this expense type is: " + str(s))
             print("")
 
+def max (expenses, params):
+    '''
+    Write the maximum amount per each expense type for a given apartment
+    Input parameters:
+        expenses - the list of expesnes
+        params - the apartment id
+    '''
+    valid = valid_max(params)
+    if valid != 0:
+        error_messages(valid)
+    else:
+        print("")
+        apId = int(params[0])
+        exp_types = expense_types_for_ap(expenses, apId)
+        if len(exp_types) == 0:
+            print("There are no expenses for this apartment")
+        else:
+            for i in exp_types:
+                mx = max_amount(expenses, apId, i)
+                print("For "+ i + " the maximum amount is " + str(mx))
+        print("")
+                
+def sort (expenses, params):
+    '''
+    Function prints the list of apartments sorted ascending by total amount of expenses or the total amount of expenses for each type, sorted ascending by amount of
+    money
+    Input parameters:
+        expenses - the list of expenses
+        params - apartment / type
+    '''
+    valid = valid_sort(params)
+    if valid != 0:
+        error_messages(valid)
+    elif len(expenses) == 0:
+         print("\nThere are no expenses in any apartment \n")
+    else:
+        
+        print("")
+        sort = params[0]
+        if sort == "apartment":
+            apList = sort_apartment(expenses)
+            print_two_arrays(apList[0], apList[1])
+        else:
+            expensesList = sort_types(expenses)
+            print_two_arrays(expensesList[0], expensesList[1])
+        print("")
+
+     
+
 
 
 def start ():
     expenses = init_expenses()
-    print("")
-    print("Insert <help> for information about the commands ")
-    print("")
+    print("\nInsert <help> for information about the commands \n")
     commands = {
         "add" : add_expense,
         "remove" : remove_expense,
         "replace" : replace_amount,
         "list" : list_expenses,
-        "sum" : sum
+        "sum" : sum,
+        "max" : max,
+        "sort": sort
         }
     while True:
         cmdList = read_command()
@@ -336,9 +398,7 @@ def start ():
         elif cmd == "exit":
             return
         else:
-            print("Invalid command")
+            print("\nInvalid command\n")
             
-    
-
-
 start()
+

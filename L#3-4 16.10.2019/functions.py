@@ -97,9 +97,9 @@ def valid_expense (expenses, params):
     else:
         if expenseType not in expenses_types():
             return 2
-        for i in expenses:
-            if apartmentId == get_apartmentId(i) and expenseType ==  get_expenseType(i):
-                return 11
+        #for i in expenses:
+            #if apartmentId == get_apartmentId(i) and expenseType ==  get_expenseType(i):
+                #return 11
     try:
         amount = int(params[2])
     except:
@@ -251,4 +251,339 @@ def test_valid_sum ():
     assert valid_sum([1,2]) == 9
 test_valid_sum()
 
+def sum_expenses_types (expenses, expenseType):
+    sum = 0
+    for i in expenses:
+        if get_expenseType(i) == expenseType:
+            sum = sum + int(get_amount(i))
+    return sum
 
+def test_sum_expenses_types ():
+    expenses = empty()
+
+    append_to_array(expenses,create_expense(100,"water",40))
+    append_to_array(expenses,create_expense(101,"electricity",60))
+    append_to_array(expenses,create_expense(102,"other",20))
+    append_to_array(expenses,create_expense(100,"heating",45))
+    append_to_array(expenses,create_expense(101,"gas",100))
+    append_to_array(expenses,create_expense(100,"water",50))
+    append_to_array(expenses,create_expense(101,"electricity",70))
+    append_to_array(expenses,create_expense(102,"other",90))
+    append_to_array(expenses,create_expense(100,"heating",90))
+    append_to_array(expenses,create_expense(101,"gas",40))
+
+    assert sum_expenses_types(expenses, "gas") == 140
+    assert sum_expenses_types(expenses, "gas") != 130
+test_sum_expenses_types()
+
+
+#MAX feature
+
+def max_amount (expenses, apId, expenseType):
+    '''
+    Returns the maximum amount of an expense type for a given apartment
+    Input parameters:
+        expenses - the list of expenses
+        apId - the apartment for which we want to find the max amount
+        expenseType - the expense for which we want to find the max amount
+    Output parameters:
+        max - the maximum amount for an expense in a given apartment
+    '''
+
+    max = 0
+    for i in expenses:
+        if int(get_apartmentId(i)) == int(apId) and get_expenseType(i) == expenseType:
+            if max < int(get_amount(i)):
+                max = int(get_amount(i))
+    return max
+
+def test_max_amount ():
+    expenses = empty()
+
+    append_to_array(expenses,create_expense(100,"water",40))
+    append_to_array(expenses,create_expense(101,"electricity",60))
+    append_to_array(expenses,create_expense(102,"other",20))
+    append_to_array(expenses,create_expense(100,"heating",45))
+    append_to_array(expenses,create_expense(101,"gas",100))
+    append_to_array(expenses,create_expense(100,"water",50))
+    append_to_array(expenses,create_expense(101,"electricity",70))
+    append_to_array(expenses,create_expense(102,"other",90))
+    append_to_array(expenses,create_expense(100,"heating",90))
+    append_to_array(expenses,create_expense(101,"gas",40))
+    assert max_amount(expenses, 100, "water") == 50
+    assert max_amount(expenses, 101, "gas") == 100
+    assert max_amount(expenses, 200, "gas") == 0
+
+test_max_amount()
+
+def valid_max (params):
+    '''
+    Checks if the max command is valid
+    Input:
+        params - the values of the command
+    Output:
+        0 if the command is valid
+        1 if the apartment id is wrong
+        9 if the number of operands is wrong
+    '''
+    if len(params) != 1:
+        return 9
+    try:
+        apId = int(params[0])
+    except:
+        return 1
+    else:
+        if apId <= 0:
+            return 1
+    return 0
+
+def test_valid_max ():
+    assert valid_max([14]) == 0
+    assert valid_max(["14"]) == 0
+    assert valid_max(["ad"]) == 1
+    assert valid_max([1,2]) == 9
+test_valid_max()
+
+def expense_types_for_ap (expenses,apId):
+    expensesForAp = empty()
+    for i in expenses:
+        if int(apId) == int(get_apartmentId(i)) and get_expenseType(i) not in expensesForAp:
+            append_to_array(expensesForAp,get_expenseType(i))
+    return expensesForAp
+
+def test_expense_types_for_ap ():
+    expenses = empty()
+
+    append_to_array(expenses,create_expense(100,"water",40))
+    append_to_array(expenses,create_expense(101,"electricity",60))
+    append_to_array(expenses,create_expense(102,"other",20))
+    append_to_array(expenses,create_expense(100,"heating",45))
+    append_to_array(expenses,create_expense(101,"gas",100))
+    append_to_array(expenses,create_expense(100,"water",50))
+    append_to_array(expenses,create_expense(101,"electricity",70))
+    append_to_array(expenses,create_expense(102,"other",90))
+    append_to_array(expenses,create_expense(100,"heating",90))
+    append_to_array(expenses,create_expense(101,"gas",40))
+
+    assert expense_types_for_ap(expenses, 100) == ["water", "heating"]
+    assert expense_types_for_ap(expenses, 120) == []
+    assert expense_types_for_ap(expenses, 100) != ["water", "heating", "other"]
+    assert expense_types_for_ap(expenses, 100) != ["other", "heating", "other"]
+test_expense_types_for_ap()
+
+# SORT feature
+
+def valid_sort (params):
+    '''
+    Checks if the sort command has the correct operand
+    Input:
+        params - the operand
+    Output:
+        0 if the operand is correct
+        12 if the operand is incorrect
+
+    '''
+    if len(params) != 1:
+        return 12
+    if params[0] not in ["apartment","type"]:
+        return 12
+    return 0
+
+def test_valid_sort():
+    assert valid_sort(["type"]) == 0
+    assert valid_sort(["apartment"]) == 0
+    assert valid_sort(["asdasf"]) == 12
+    assert valid_sort([]) == 12
+    assert valid_sort(["type", 1]) == 12
+test_valid_sort()
+
+def sort_list (list1, list2):
+    '''
+    Sorts the lists based on the values in the second list
+    Input parameters:
+        list1 - list with expense types / apartment ids
+        list2 - list with the amount for each expense type
+    '''
+    l = len(list2)
+    for i in range(0,l-1):
+        for j in range(i+1,l):
+            if list2[i] > list2[j]: 
+                aux = list2[i]
+                list2[i] = list2[j]
+                list2[j] = aux
+                
+                aux = list1[i]
+                list1[i] = list1[j]
+                list1[j] = aux
+                
+def sort_apartment (expenses):
+    '''
+    Function provides the list of apartments sorted by the total amount of expenses
+    Input parameters :
+        expenses - the list of expenses
+    Output parameters:
+        apList - the list of apartments sorted by the total amount
+        amountList - the list of total amounnt for each apartment
+    '''
+    apList = empty()
+    amountList = empty()
+    for i in expenses:
+        apId = int(get_apartmentId(i))
+        if apId not in apList:
+            append_to_array(apList,apId)
+            append_to_array(amountList,int(sum_expenses(expenses,apId)))
+    sort_list(apList,amountList)
+    return [apList,amountList]
+
+def test_sort_apartment ():
+    expenses = empty()
+
+    append_to_array(expenses,create_expense(100,"water",40))
+    append_to_array(expenses,create_expense(101,"electricity",60))
+    append_to_array(expenses,create_expense(102,"other",20))
+    append_to_array(expenses,create_expense(100,"heating",45))
+    append_to_array(expenses,create_expense(101,"gas",100))
+    append_to_array(expenses,create_expense(100,"water",50))
+    append_to_array(expenses,create_expense(101,"electricity",70))
+    append_to_array(expenses,create_expense(102,"other",90))
+    append_to_array(expenses,create_expense(100,"heating",90))
+    append_to_array(expenses,create_expense(101,"gas",40))
+    
+    apList = sort_apartment(expenses)
+
+    assert apList[0] == [102,100,101]
+    assert apList[0] != [1,2,3,"asd"]
+    assert apList[1] == [110,225,270]
+    assert len(apList[1]) == len(apList[0])
+test_sort_apartment()
+
+def sort_types (expenses):
+    '''
+    Returns the list of expenses sorted by their totatl amount
+    Input parameters:
+        expenses - the list of expenses
+    Output parameters:
+        typeList - the list of expense types sorted by their total amount
+        amountList - the list of the total amount per each expense
+    '''
+    typeList = expenses_types()
+    amountList = empty()
+    for i in expenses_types():
+        append_to_array(amountList,sum_expenses_types(expenses,i))
+    sort_list(typeList,amountList)
+    return [typeList,amountList]
+
+def test_sort_types ():
+    expenses = empty()
+
+    append_to_array(expenses,create_expense(100,"water",40))
+    append_to_array(expenses,create_expense(101,"electricity",60))
+    append_to_array(expenses,create_expense(102,"other",20))
+    append_to_array(expenses,create_expense(100,"heating",45))
+    append_to_array(expenses,create_expense(101,"gas",100))
+    append_to_array(expenses,create_expense(100,"water",50))
+    append_to_array(expenses,create_expense(101,"electricity",70))
+    append_to_array(expenses,create_expense(102,"other",90))
+    append_to_array(expenses,create_expense(100,"heating",90))
+    append_to_array(expenses,create_expense(101,"gas",40))
+    
+    apList = sort_types(expenses)
+    assert apList == [['water', 'other', 'electricity', 'heating', 'gas'], [90, 110, 130, 135, 140]]
+    assert len(apList[1]) == len(apList[0])
+
+test_sort_types()
+
+#FILTER feature
+
+def valid_filter (params):
+    '''
+    Checks if the filter command is correct
+    Input parameters:
+        params - the command values
+    Output:
+        0 - valid data
+        2 - wrong type
+        3 - wrong amount
+        9 - wrong number of operands
+    '''
+    if len(params) != 1:
+        return 9
+    if params[0] in expenses_types():
+        return 0
+    else:
+        try:
+            amount = int(params[0])
+        except:
+            return 2
+        else:
+            if amount <= 0:
+                return 3
+    return 0
+
+def test_valid_filter ():
+    assert valid_filter(["gas"]) == 0
+    assert valid_filter([300]) == 0
+    assert valid_filter(["300"]) == 0
+    assert valid_filter(["asda"]) == 2
+    assert valid_filter(["-32"]) == 3
+    assert valid_filter([]) == 9
+    assert valid_filter([1,2,3]) == 9
+test_valid_filter()
+
+def filter_type (expenses, expenseType):
+    '''
+    Function keeps all expenses that have the required expense type
+    Input parameters:
+        expenses - the list of expenses
+        expenseType - the required expense type
+    '''
+    i = 0
+    l = len(expenses)
+    while i < l:
+        if get_expenseType(expenses[i]) != expenseType:
+            expenses.remove(expenses[i])
+            l = l-1
+        else:
+            i = i+1
+
+def test_filter_type ():
+    expenses = empty()
+    append_to_array(expenses,create_expense(101,"electricity",60))
+    append_to_array(expenses,create_expense(100,"water",50))
+    append_to_array(expenses,create_expense(100,"water",50))
+    append_to_array(expenses,create_expense(101,"electricity",70))
+    append_to_array(expenses,create_expense(100,"water",50))
+    append_to_array(expenses,create_expense(100,"water",50))
+
+    filter_type(expenses, "electricity")
+   
+    assert len(expenses) == 2
+    assert get_expenseType(expenses[1]) == "electricity"
+test_filter_type()
+
+def filter_amount (expenses, amount):
+    '''
+    Function keep all expenses that have an amount smaller than the required amount
+    Input parameters:
+        expenses - the list of expenses
+        amount - the required amount
+    '''
+    i = 0
+    l = len(expenses)
+    while i < l:
+        if int(get_amount(expenses[i])) >= int(amount):
+            expenses.remove(expenses[i])
+            l = l-1
+        else:
+            i = i+1
+
+def test_filter_amount ():
+    expenses = empty()
+    append_to_array(expenses,create_expense(101,"electricity",60))
+    append_to_array(expenses,create_expense(100,"water",350))
+    append_to_array(expenses,create_expense(101,"electricity",350))
+
+    filter_amount(expenses, 300)
+    assert len(expenses) == 1
+    assert get_expenseType(expenses[0]) == "electricity"
+test_filter_amount()
