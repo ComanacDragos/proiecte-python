@@ -150,9 +150,7 @@ def list_expenses (expenses, params):
     if valid_list(params) != 0 :
         error_messages(valid_list(params))
     elif len(expenses) == 0:
-        print("")
-        print("There are no expenses in any apartments")
-        print("")
+        print("\nThere are no expenses in any apartments\n")
     else:
         print ("")
         ok = 0
@@ -221,9 +219,7 @@ def add_expense (expenses, params):
     else:
         expense = create_expense(int(params[0]), params[1], int(params[2]))
         append_to_array(expenses, expense)
-        print("")
-        print("The expense was added succesfully")   
-        print("")
+        print("\nThe expense was added succesfully\n")   
 
 def remove_expense (expenses, params):
     '''
@@ -269,13 +265,9 @@ def remove_expense (expenses, params):
                 else:
                     i = i+1
         if ok == 0:
-            print("")
-            print("The requested expenses do not exist")
-            print("")
+            print("\nThe requested expenses do not exist\n")
         else:
-            print("")
-            print("The expenses were removed succesfully")
-            print("")
+            print("\nThe expenses were removed succesfully\n")
 
 def replace_amount (expenses, params):
     '''
@@ -292,15 +284,13 @@ def replace_amount (expenses, params):
             id = get_apartmentId(i)
             expType = get_expenseType(i)
             if int(params[0]) == int(id) and params[1] == expType:
-                set_amount(i, params[3])
+                set_amount(i, int(params[3]))
                 ok = 1
                 break
         if ok == 0:
-            print ("The requested expense does not exist")
+            print ("\nThe requested expense does not exist\n")
         else:
-            print("")
-            print("The amount was replaced succesfully")
-            print("")
+            print("\nThe amount was replaced succesfully\n")
 
 def sum (expenses,params):
     '''
@@ -369,15 +359,42 @@ def sort (expenses, params):
         else:
             expensesList = sort_types(expenses)
             print_two_arrays(expensesList[0], expensesList[1])
-        print("")
+        print("")     
 
-     
+def filter (expenses, params):
+    '''
+    Function keeps only expenses having an amount of money smaller than a given amount or a given expense type
+    Input parameters:
+        expenses - list of expenses
+        params - the expense type or the required amount
+    '''
+    valid = valid_filter(params)
+    if valid != 0:
+        error_messages(valid)
+    elif len(expenses) == 0:
+        print("\nThere are no expenses for any aprtment\n")
+    else:
+        if params[0] in expenses_types():
+            filter_type(expenses, params[0])
+        else:
+            filter_amount(expenses, params[0])
+        print("\nThe expenses were succesfully removed\n")
 
+def undo_ui (history, expenses, params):
+    if len(params) != 0:
+        error_messages(9)
+    elif len(history) == 0:
+        print("\nThe list of expenses is in it's initial state\n")
+    else:
+        undo(history,expenses)
+        print("\nThe undo was succesfull\n")
 
 
 def start ():
     expenses = init_expenses()
+    history = []
     print("\nInsert <help> for information about the commands \n")
+
     commands = {
         "add" : add_expense,
         "remove" : remove_expense,
@@ -385,20 +402,27 @@ def start ():
         "list" : list_expenses,
         "sum" : sum,
         "max" : max,
-        "sort": sort
+        "sort": sort,
+        "filter": filter
         }
+
     while True:
         cmdList = read_command()
         cmd = cmdList[0]
         params = cmdList[1]
+        if cmd in ["add", "remove", "replace", "filter"]:
+                add_to_history(history,expenses)
         if cmd in commands:
-            commands[cmd](expenses,params)
+            commands[cmd](expenses,params)  
         elif cmd == "help":
             give_help(params)
+        elif cmd == "undo":
+            undo_ui(history, expenses, params)
         elif cmd == "exit":
             return
         else:
             print("\nInvalid command\n")
-            
+        
 start()
+
 

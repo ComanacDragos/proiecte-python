@@ -579,11 +579,40 @@ def filter_amount (expenses, amount):
 
 def test_filter_amount ():
     expenses = empty()
-    append_to_array(expenses,create_expense(101,"electricity",60))
+    append_to_array(expenses,create_expense(101,"water",60))
     append_to_array(expenses,create_expense(100,"water",350))
     append_to_array(expenses,create_expense(101,"electricity",350))
 
     filter_amount(expenses, 300)
     assert len(expenses) == 1
-    assert get_expenseType(expenses[0]) == "electricity"
+    assert get_expenseType(expenses[0]) == "water"
 test_filter_amount()
+
+#UNDO feature
+
+def undo (history, expenses):
+    '''
+    Function replaces the current list of expenses with the last list 
+    Input parameters:
+        history - the list that retains the lists of expenses 
+        expenses - the current list of expenses
+    '''
+    expenses.clear()
+    aux = history[-1]
+    for i in aux:
+        append_to_array(expenses,i)
+    history.remove(history[-1])
+
+import copy
+
+def add_to_history (history, expenses):
+    '''
+    Function adds to history the current list of expenses
+    Input parameters:
+        history - the history of all lists of expenses
+        expenses - the current expenses
+    '''
+    append_to_array(history, [])
+    #for i in expenses:
+        #append_to_array(history[-1], i)
+    history[-1] = copy.deepcopy(expenses)
