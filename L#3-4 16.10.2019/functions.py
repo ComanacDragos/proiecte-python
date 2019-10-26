@@ -1,5 +1,5 @@
 from domain import *
-
+import copy
 #LIST feature
 
 def valid_list (params):
@@ -603,7 +603,13 @@ def undo (history, expenses):
         append_to_array(expenses,i)
     history.remove(history[-1])
 
-import copy
+def test_undo ():
+    x = [1,2,3]
+    y = [[1,2,3],[4,5,6]]
+    undo(y,x)
+    assert x == [4,5,6]
+    assert y == [[1,2,3]]
+test_undo()
 
 def add_to_history (history, expenses):
     '''
@@ -612,7 +618,17 @@ def add_to_history (history, expenses):
         history - the history of all lists of expenses
         expenses - the current expenses
     '''
+    if len (history) != 0:
+        if expenses == [] and history[-1] == []:
+            return
     append_to_array(history, [])
-    #for i in expenses:
-        #append_to_array(history[-1], i)
     history[-1] = copy.deepcopy(expenses)
+
+def test_add_to_history ():
+    x = [1,2,3]
+    y = [[3,4,5]]
+    add_to_history(y,x)
+    assert y == [[3,4,5],[1,2,3]]
+    x[0] = 10
+    assert y == [[3,4,5],[1,2,3]]
+test_add_to_history()
