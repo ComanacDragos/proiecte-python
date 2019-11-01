@@ -619,7 +619,7 @@ def add_to_history (history, expenses):
         expenses - the current expenses
     '''
     if len (history) != 0:
-        if expenses == [] and history[-1] == []:
+        if expenses == [] and history[-1] == [] and expenses == history[-1]:
             return
     append_to_array(history, [])
     history[-1] = copy.deepcopy(expenses)
@@ -632,3 +632,31 @@ def test_add_to_history ():
     x[0] = 10
     assert y == [[3,4,5],[1,2,3]]
 test_add_to_history()
+
+def valid_history (cmd, params):
+    '''
+    Function checks if a command that changes the list of expenses is valid so that it can add the list of expenses to history
+    Input parameters:
+        cmd - one of the add, remove, replace or filter commands
+        params - the parameters of the command
+    Output parameters:
+        0 - if data is valid
+        1 - otherwise
+    '''
+    if cmd == "add" and valid_expense([], params) != 0:
+        return 1
+    elif cmd == "remove" and valid_removal(params) != 0:
+        return 1
+    elif cmd == "replace" and valid_replace(params) != 0:
+        return 1
+    elif cmd == "filter" and valid_filter(params) != 0:
+        return 1
+    return 0
+
+def test_valid_history ():
+    assert valid_history("add", [1,"gas",2]) == 0
+    assert valid_history("add", [1,"gas","2"]) == 0
+    assert valid_history("add", [1,"gas",-2]) == 1
+    assert valid_history("filter", ["sfa"]) == 1
+    assert valid_history("filter", ["gas"]) == 0
+test_valid_history()

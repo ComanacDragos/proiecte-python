@@ -58,9 +58,6 @@ For listing expenses insert the following commands:
         list <apartment>
         list [ < | = | > ] <amount>
 
-For exiting the program insert the following command:
-        exit
-
 For the sum of the amount of all expenses of a given type insert the following command
         sum <type>
 
@@ -98,8 +95,10 @@ def command_based ():
         cmdList = read_command()
         cmd = cmdList[0]
         params = cmdList[1]
-        if cmd in ["add", "remove", "replace", "filter"] :
-                add_to_history(history,expenses)
+        if cmd in ["remove", "replace", "filter"] and valid_history(cmd, params) == 0 and len(expenses) != 0 :
+            add_to_history(history,expenses)
+        elif cmd == "add" and valid_history(cmd, params) == 0:
+            add_to_history(history, expenses)
         if cmd in commands:
             commands[cmd](expenses,params)  
         elif cmd == "help":

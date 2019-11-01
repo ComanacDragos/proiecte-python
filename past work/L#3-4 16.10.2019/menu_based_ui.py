@@ -15,11 +15,12 @@ def print_menu ():
 '''
     print(menu)
 
-def menu_ui_add (expenses):
+def menu_ui_add (expenses, history):
     '''
     The menu_ui function that adds an expense to the list of expenses
     Input parameters:
         expenses - the list of expenses
+        histoyry - history of all lists of expenses
     '''
     params = empty()
 
@@ -32,13 +33,18 @@ def menu_ui_add (expenses):
     params.append(apId)
     params.append(expType)
     params.append(amount)
+
+    if valid_history("add", params) == 0:
+        add_to_history(history, expenses)
+
     add_expense(expenses,params)
 
-def menu_ui_remove (expenses):
+def menu_ui_remove (expenses, history):
     '''
     The menu_ui funnction that removes an expense, or multiple from the list of expenses
     Input parameters:
         expenses - the list of expenses
+        history - the history of all lists of expenses
     '''
 
     choice = '''
@@ -70,13 +76,17 @@ def menu_ui_remove (expenses):
         print("\nInvalid command\n")
         return
     
+    if valid_history("remove", params) == 0:
+        add_to_history(history, expenses)
+
     remove_expense(expenses, params)
 
-def menu_ui_replace (expenses):
+def menu_ui_replace (expenses, history):
     '''
     The menu_ui function that replaces the amoun of an expense with a new value
     Input parametes:
         expenses - the list of expenses
+        history - history of all lists of expenses
     '''
 
     print("")
@@ -91,6 +101,8 @@ def menu_ui_replace (expenses):
     params.append("with")
     params.append(newAmount)
 
+    if valid_history("replace", params) == 0:
+        add_to_history(history, expenses)
     replace_amount(expenses, params)
 
 def menu_ui_list (expenses):
@@ -175,11 +187,12 @@ def menu_ui_sort (expenses):
         return
     sort(expenses, params)
 
-def menu_ui_filter (expenses):
+def menu_ui_filter (expenses, history):
     '''
     The menu_ui function that keeps expenses having a certain criteria
     Input parameters:
         expenses - the list of expenses
+        history - history of all lists of expenses
     '''
 
     params = empty()
@@ -198,6 +211,9 @@ def menu_ui_filter (expenses):
     else:
         print("\nInvalid command\n")
         return 
+    
+    if valid_history("filter", params) == 0:
+        add_to_history(history, expenses)
     filter(expenses, params)
 
 def menu_based():
@@ -217,9 +233,9 @@ def menu_based():
     while True:
         print_menu()
         cmd = input(">")
-        if cmd in ["1","2","3","8"] :
-                add_to_history(history,expenses)
-        if cmd in commands:
+        if cmd in ["1","2","3","8"]:
+                commands[cmd](expenses, history)
+        elif cmd in ["4","5","6","7"]:
             commands[cmd](expenses)
         elif cmd == "9":
             undo_ui(history, expenses, [])
