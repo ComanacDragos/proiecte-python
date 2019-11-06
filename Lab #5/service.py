@@ -33,7 +33,9 @@ class Service :
             return 2
         if type(book.title) != str:
             return 3
+
         
+
         for i in self._books:
             if book.isbn == i.isbn:
                 return 4

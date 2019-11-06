@@ -39,7 +39,8 @@ class UI:
         author = input("Give author: ")
         title = input("Give title: ")
         print("")
-
+        isbn = isbn.strip()
+        title = title.strip()
         book = Book(isbn, author, title)
 
         succes = self.service.addBook(book)
