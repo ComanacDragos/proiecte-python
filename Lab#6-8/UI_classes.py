@@ -31,7 +31,7 @@ x. Exit
         except duplicateID:
             print("\nThe book already exists\n")
         except badId:
-            print("\nThe id is not a natural number")
+            print("\nThe id is not a natural number\n")
         
     def list_books_UI (self):
         books = self._bookService.list_books()
@@ -52,12 +52,20 @@ x. Exit
             print("\nThe book was removed succesfully\n")
         except IdDoesNotExist:
             print("\nThe required book does not exist\n")
+        except badId:
+            print("\nThe is not a natural number")
         
     def update_book_UI (self):
         '''
         Updates the author or the title of a given book
         '''
         ID = input("Give ID: ")
+        try:
+            self._bookService.valid_ID(ID)
+        except badId:
+            print("\nThe id is not a natural number\n")
+            return
+
         choice = '''
 1. Update author
 2. Update title
@@ -103,22 +111,83 @@ x. Exit
             else:
                 print("Invalid command")
             
-#booksUi = Books_UI()
-#booksUi.start()
+booksUi = Books_UI()
+booksUi.start_book_ui()
 
 class Clients_UI ():
     def __init__ (self):
-        self._clientService = ServiceBooks()
-    
+        self._clientService = ServiceClients()
+
+    @staticmethod
+    def print_menu():
+        menu = '''
+1. Add client
+2. List clients
+3. Remove client
+4. Update client
+x. Exit
+'''
+        print (menu)
     def add_client_ui (self):
         '''
         Function reads a client and adds it to the list
         '''
-        pass
+        ID = input("Give ID: ").strip(" ")
+        name = input("Give name: ").strip(" ")
+        client = Client(ID, name)
+        try:
+            self._clientService.add_client(client)
+            print("\nThe client was added succesfully\n")
+        except badId:
+            print("\nThe id is not a natural number\n")
+        except duplicateID:
+            print("\nA client with this id already exists\n")
+
+    def list_clients_ui (self):
+        '''
+        Function lists all clients
+        '''
+        clients = self._clientService.list_clients()
+        if len(clients) == 0:
+            print("\nThere are no clients\n")
+        else:
+            for i in clients:
+                print(i)
+            
+    def remove_client_ui (self):
+        '''
+        Removes a client from the list of clients
+        '''
+        ID = input("Give the id: ").strip(" ")
+        try:
+            self._clientService.remove_client(ID)
+            print("\nThe client was removed succesfully")
+        except IdDoesNotExist:
+            print("\nThe required id does not exist\n")
+        except badId:
+            print("\nThe id is not a natural number\n")
+
+    def update_client_ui (self):
+        '''
+        Updates a client's name
+        '''
+        ID = input("Give id: ").strip(" ")
+        name = input("Give name: ").strip(" ")
+        try: 
+            self._clientService.update_client_name(ID, name)
+            print("\nThe client was updated succesfully\n")
+        except badId:
+            print("\nThe id is not a natural number\n")
+        except IdDoesNotExist:
+            print("\nThe required client does not exist")
+
 
     def start_client_ui (self):
         commands = {
-            
+            "1" : self.add_client_ui,
+            "2" : self.list_clients_ui,
+            "3" : self.remove_client_ui,
+            "4" : self.update_client_ui
         }
 
         while True:
@@ -133,5 +202,5 @@ class Clients_UI ():
             else:
                 print("Invalid command")
 
-
-    
+ui = Clients_UI()
+ui.start_client_ui()

@@ -9,8 +9,20 @@ class ServiceBooks:
         self._bookList = []
         for i in range(100, 110):
             l = random.choice(books)
-            self._bookList.append(Book(str(i), l[0], l[1]))
-        
+            self._bookList.append(Book(str(i), l[0], l[1]))        
+
+    def valid_ID (self, ID):
+        '''
+        Cheks if the id is correct or not
+        '''
+        try:
+            nr = float(ID)
+        except:
+            raise badId
+        else:
+            if nr < 0 or int(nr) != nr:
+                raise badId
+                
 
     def add_book (self, book):
         '''
@@ -20,6 +32,8 @@ class ServiceBooks:
         Exceptions:
             duplicateBook - duplicate book id
         '''
+        self.valid_ID(book.bookId)
+        '''
         try:
             book.bookId = int(book.bookId)
         except:
@@ -27,21 +41,25 @@ class ServiceBooks:
         else:
             if int(book.bookId) < 0 or int(book.bookId) != book.bookId:
                 raise badId
-        
+        '''
         for i in self._bookList:
             if i == book:
                 raise duplicateID("Duplicate book id!")
         self._bookList.append(book)
 
-    def list_books (self):
+    def list_books (self, listOfBooks = None):
         '''
-        Returns the list of books in a specific format
+        Returns the list of some books in a specific format
+        Input:
+            listOfBooks - a list of books (with the default list being all the books)
         Output:
-            books - the list of books in that format
+            books - the required books in a specific format
         '''
+        if listOfBooks == None:
+            listOfBooks = self._bookList
         books = []
         count = 0
-        for i in self._bookList:
+        for i in listOfBooks:
             count += 1
             books.append(str(count) + ". " + str(i))
         return books
@@ -54,6 +72,8 @@ class ServiceBooks:
         Exception:
             bookIdDoesNotExist - required book doesn't exist
         '''
+        self.valid_ID(ID)    
+
         for i in self._bookList:
             if int(i.bookId) == int(ID):
                 self._bookList.remove(i)
@@ -69,6 +89,7 @@ class ServiceBooks:
         Exception:
             bookIdDoesNotExist - required book doesn't exist
         '''
+        self.valid_ID(ID)
         for i in self._bookList:
             if i.bookId == ID:
                 i.author = author
@@ -101,39 +122,72 @@ class ServiceClients:
         self._clientList = []
         self._clientList.append(Client(100, "Bob"))
 
+    def valid_ID (self, ID):
+        '''
+        Cheks if the id is correct or not
+        '''
+        try:
+            nr = float(ID)
+        except:
+            raise badId
+        else:
+            if nr < 0 or int(nr) != nr:
+                raise badId
+
     def add_client (self, client):
         '''
         Adds a client to the client list 
         Input:
             client - object of type Client
         '''
-        try:
-            client.clientId = int(client.clientId)
-        except:
-            raise badId
-        else:
-            ID = client.clientId
-            if ID < 0 or ID != int(ID):
-                raise badId
+        self.valid_ID(client.clientId)
+
         for i in self._clientList:
             if client == i:
                 raise duplicateID
         self._clientList.append(client)
+    
+    def list_clients (self, clientList = None):
+        '''
+        Returns the list of some clients in a specific format
+        Input:
+            clientList - the list of some clients in a specific format (if no client list is given all clients are considered)
+        Output:
+            clients - the required clients in a specific format
+        '''
+        if clientList == None:
+            clientList = self._clientList
+        clients = []
+        count = 0
+        for i in clientList:
+            count += 1
+            clients.append(str(count) + ". " + str(i))
+        return clients
+    
+    def remove_client (self,  ID):
+        '''
+        Removes a client with a given ID
+        Input:
+            ID - the id of the client to be removed
+        '''
+        self.valid_ID(ID) 
 
+        for i in self._clientList:
+            if int(i.clientId) == int(ID):
+                self._clientList.remove(i)
+                return
+        raise IdDoesNotExist
 
-def test_add_client():
-    service = ServiceClients()
-    service.add_client(Client("1", "bobo"))
-    assert str(service._clientList[-1].clientId) == "1" and service._clientList[-1].name == "bobo"
-    try:
-        service.add_client(Client("-23","bobo"))
-        assert False
-    except badId:
-        assert True
-
-    try:
-        service.add_client(Client("1","bobo"))
-        assert False
-    except duplicateID:
-        assert True
-test_add_client()
+    def update_client_name (self, ID, name):
+        '''
+        Updates the name of a client 
+        Input:
+            ID - the id of the client to be updated
+            name - the new name
+        '''
+        self.valid_ID(ID)
+        for i in self._clientList:
+            if int(i.clientId) == int(ID):
+                i.name = name
+                return
+        raise IdDoesNotExist

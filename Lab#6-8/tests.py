@@ -57,11 +57,45 @@ class Tests:
             assert False
         except IdDoesNotExist:
             assert True
+        
+    @staticmethod
+    def test_remove_client():
+        service = ServiceClients()
+        service.add_client(Client("1", "bobo"))
+        n = len(service._clientList)
+        service.remove_client("1")
+        assert len(service._clientList) == n-1
+        assert service._clientList[-1].clientId != "1"
+        try:
+            service.remove_client(Client("2", "bobo"))
+            assert False
+        except:
+            assert True
+
+    @staticmethod
+    def test_add_client():
+        service = ServiceClients()
+        service.add_client(Client("1", "bobo"))
+        assert str(service._clientList[-1].clientId) == "1" and service._clientList[-1].name == "bobo"
+        try:
+            service.add_client(Client("-23","bobo"))
+            assert False
+        except badId:
+            assert True
+
+        try:
+            service.add_client(Client("1","bobo"))
+            assert False
+        except duplicateID:
+            assert True
+
 
     def run_tests (self):
         self.test_add_book()
         self.test_remove_book()
         self.test_update_book()
+        self.test_add_client
+        self.test_remove_client
 
 test = Tests()
 test.run_tests()
