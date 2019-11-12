@@ -182,11 +182,15 @@ class Service :
             return valid
         else:
             self._books.clear()
-            aux = self._history[-1]
+            self._books = copy.deepcopy(self._history[-1])
+            '''
             for i in aux:
                 self._books.append(i)
-            self._history.remove(aux)
+            '''
+            self._history.remove(self._history[-1])
+            
             return 0
+        
         
 
     def print_history (self):
@@ -214,3 +218,4 @@ def test_add_book():
     assert service.valid_add(book) == 4
 
 test_add_book()
+ 
