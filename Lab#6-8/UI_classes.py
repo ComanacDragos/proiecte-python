@@ -1,12 +1,15 @@
 from tests import *
 from service import *
 
-class Books_UI:
+class UI:
     def __init__ (self):
-        self._bookService = ServiceBooks()
+        self._service = Service()
+        self._repository = self._service._repository
+        
+
 
     @staticmethod
-    def print_menu ():
+    def print_books_menu ():
         menu = '''
 1. Add book
 2. List books
@@ -26,15 +29,17 @@ x. Exit
         book = Book(bookId, title, author)
 
         try:
-            self._bookService.add_book(book)
+            self._repository.add_book(book)
             print("\nThe book was added succesfully\n")
         except duplicateID:
             print("\nThe book already exists\n")
         except badId:
             print("\nThe id is not a natural number\n")
+        except emptyString:
+            print("\nThe author or the title is void\n")
         
     def list_books_UI (self):
-        books = self._bookService.list_books()
+        books = self._repository.list_books()
         if len(books) == 0:
             print("\nThere are no books\n")
         else:
@@ -48,7 +53,7 @@ x. Exit
         ID = input("Give the book ID: ")
 
         try:
-            self._bookService.remove_bookID(ID)
+            self._repository.remove_bookID(ID)
             print("\nThe book was removed succesfully\n")
         except IdDoesNotExist:
             print("\nThe required book does not exist\n")
@@ -61,7 +66,7 @@ x. Exit
         '''
         ID = input("Give ID: ")
         try:
-            self._bookService.valid_ID(ID)
+            self._repository.valid_ID(ID)
         except badId:
             print("\nThe id is not a natural number\n")
             return
@@ -75,18 +80,22 @@ x. Exit
         if choice == "1":
             author = input("Give new author: ")
             try:
-                self._bookService.update_book_author(ID, author)
+                self._repository.update_book_author(ID, author)
                 print("\nThe book was updated succesfully\n")
             except IdDoesNotExist:
                 print("\nThe required book doesn't exist\n")
+            except emptyString:
+                print("\nThe new name of the author is void\n")
         
         elif choice == "2":
             title = input("Give title: ")
             try:
-                self._bookService.update_book_title(ID, title)
+                self._repository.update_book_title(ID, title)
                 print("\nThe book was updated succesfully\n")
             except IdDoesNotExist:
                 print("\nThe required book does not exist\n")
+            except emptyString:
+                print("\nThe new value of the title is void\n")
         else:
             print("\nInvalid command\n")
 
@@ -99,27 +108,22 @@ x. Exit
         }
 
         while True:
-            self.print_menu()
+            self.print_books_menu()
             choice = input("> ")
             print("")
             choice = choice.strip(" ")
             if choice in commands:
                 commands[choice]()
-                self._bookService.sort_book_list()
+                if choice in ["1", "3"]:
+                    self._repository.sort_book_list()
             elif choice == "x":
                 return
             else:
                 print("Invalid command")
-            
-booksUi = Books_UI()
-booksUi.start_book_ui()
-
-class Clients_UI ():
-    def __init__ (self):
-        self._clientService = ServiceClients()
+       
 
     @staticmethod
-    def print_menu():
+    def print_clients_menu():
         menu = '''
 1. Add client
 2. List clients
@@ -136,7 +140,7 @@ x. Exit
         name = input("Give name: ").strip(" ")
         client = Client(ID, name)
         try:
-            self._clientService.add_client(client)
+            self._repository.add_client(client)
             print("\nThe client was added succesfully\n")
         except badId:
             print("\nThe id is not a natural number\n")
@@ -147,7 +151,7 @@ x. Exit
         '''
         Function lists all clients
         '''
-        clients = self._clientService.list_clients()
+        clients = self._repository.list_clients()
         if len(clients) == 0:
             print("\nThere are no clients\n")
         else:
@@ -160,7 +164,7 @@ x. Exit
         '''
         ID = input("Give the id: ").strip(" ")
         try:
-            self._clientService.remove_client(ID)
+            self._repository.remove_client(ID)
             print("\nThe client was removed succesfully")
         except IdDoesNotExist:
             print("\nThe required id does not exist\n")
@@ -174,7 +178,7 @@ x. Exit
         ID = input("Give id: ").strip(" ")
         name = input("Give name: ").strip(" ")
         try: 
-            self._clientService.update_client_name(ID, name)
+            self._repository.update_client_name(ID, name)
             print("\nThe client was updated succesfully\n")
         except badId:
             print("\nThe id is not a natural number\n")
@@ -191,16 +195,18 @@ x. Exit
         }
 
         while True:
-            self.print_menu()
+            self.print_clients_menu()
             choice = input("> ")
             print("")
             choice = choice.strip(" ")
             if choice in commands:
                 commands[choice]()
+                if choice in ["1", "3"]:
+                    self._repository.sort_client_list()
             elif choice == "x":
                 return
             else:
                 print("Invalid command")
 
-ui = Clients_UI()
-ui.start_client_ui()
+ui = UI()
+ui.start_book_ui()

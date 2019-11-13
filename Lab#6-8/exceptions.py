@@ -15,3 +15,8 @@ class badId (Exception):
     The book id is not a natural number
     '''
     pass
+
+class emptyString(Exception):
+    '''
+    The string is empty
+    '''

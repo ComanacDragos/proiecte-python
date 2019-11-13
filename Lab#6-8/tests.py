@@ -3,7 +3,7 @@ class Tests:
 
     @staticmethod
     def test_add_book ():
-        service = ServiceBooks()
+        service = Repository()
         service.add_book(Book(1,2,3))
         assert service._bookList[-1].bookId == 1 and service._bookList[-1].title == 2 and service._bookList[-1].author == 3
         try:
@@ -24,7 +24,7 @@ class Tests:
 
     @staticmethod
     def test_remove_book ():
-        service = ServiceBooks()
+        service =Repository()
         n = len(service._bookList)
         service.add_book(Book("1","2","3"))
         service.remove_bookID("1")
@@ -39,7 +39,7 @@ class Tests:
 
     @staticmethod
     def test_update_book ():
-        service = ServiceBooks()
+        service = Repository()
         service.add_book(Book(1,2,3))
         service.update_book_author(1,"new")
         service.update_book_title(1,"new2")
@@ -47,20 +47,20 @@ class Tests:
         assert service._bookList[-1].title == "new2"
 
         try:
-            service.update_book_author(0, "asd")
+            service.update_book_author(2, "asd")
             assert False
         except IdDoesNotExist:
             assert True
         
         try:
-            service.update_book_title(0, "asd")
+            service.update_book_title(2, "asd")
             assert False
         except IdDoesNotExist:
             assert True
         
     @staticmethod
     def test_remove_client():
-        service = ServiceClients()
+        service = Repository()
         service.add_client(Client("1", "bobo"))
         n = len(service._clientList)
         service.remove_client("1")
@@ -74,7 +74,7 @@ class Tests:
 
     @staticmethod
     def test_add_client():
-        service = ServiceClients()
+        service = Repository()
         service.add_client(Client("1", "bobo"))
         assert str(service._clientList[-1].clientId) == "1" and service._clientList[-1].name == "bobo"
         try:

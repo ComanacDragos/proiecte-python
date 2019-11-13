@@ -30,3 +30,16 @@ for i in range(10):
     l.append(authors[i])
     l.append(titles[i])
     books.append(l)
+
+names = [
+    "Bob",
+    "Alex",
+    "Jake",
+    "Bobo",
+    "Johnny",
+    "Elizabeth",
+    "Barbara",
+    "Brenda",
+    "Linda",
+    "Mary"
+]
