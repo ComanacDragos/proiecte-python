@@ -1,6 +1,9 @@
 from service import *
 class Tests:
 
+    def __init__ (self):
+        self.repo = Repository()
+
     @staticmethod
     def test_add_book ():
         service = Repository()
@@ -89,13 +92,32 @@ class Tests:
         except duplicateID:
             assert True
 
+    def test_update_client (self):
+        
+        self.repo.add_client(Client("1", "bobo"))
+        self.repo.update_client_name("1", "newBobo")
+        assert self.repo._clientList[-1].name == "newBobo"
+
+        try:
+            self.repo.update_client_name("asd", "newBobo")
+            assert False
+        except badId:
+            assert True
+        
+        try:
+            self.repo.update_client_name("2", "newBobo")
+            assert False
+        except IdDoesNotExist:
+            assert True
+    
 
     def run_tests (self):
         self.test_add_book()
         self.test_remove_book()
         self.test_update_book()
-        self.test_add_client
-        self.test_remove_client
+        self.test_add_client()
+        self.test_remove_client()
+        self.test_update_client()
 
 test = Tests()
 test.run_tests()

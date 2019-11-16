@@ -122,6 +122,8 @@ x. Exit
                 print("Invalid command")
        
 
+#--------------------------------------Clients----------------------------------------------------------#
+
     @staticmethod
     def print_clients_menu():
         menu = '''
@@ -208,5 +210,117 @@ x. Exit
             else:
                 print("Invalid command")
 
+#---------------------------------------------RENTALS---------------------------------------#
+
+    @staticmethod
+    def print_rental_menu ():
+        menu = '''
+1. List rentals
+2. Rent a book
+3. Return a book
+4. List books
+5. List clients
+x. Exit
+        '''
+        print(menu)
+
+    def list_rentals (self):
+        cont = 0
+        for i in self._repository._rentalList:
+            cont = cont + 1 
+            print(str(cont) + ". " + str(i))
+    
+    def ui_add_rental (self):
+        '''
+        Reads the values of a rental then adds it to the list
+        '''
+        print("")
+        rentalId = input("Give rental ID: ").strip(" ")
+        bookId = input("Give book ID: ").strip(" ")
+        clientId = input("Give client ID: ").strip(" ")
+        rentedDate = input("Give rented date(day.month.year): ").strip(" ")
+        d = rentedDate.split(".")
+        print("")
+
+        try:
+            date(int(d[2]), int(d[1]), int(d[0]))
+        except:
+            print("\nBad date\n")
+            return
+
+        rentedDate = date(int(d[2]), int(d[1]), int(d[0]))
+
+        rental = Rental(rentalId, bookId, clientId, rentedDate)
+
+        try:
+            self._repository.add_rental(rental)
+            print("\nThe rental was added succesfully\n")
+        except badId:
+            print("\nOne of the id's is not a natural number\n")
+        except duplicateID:
+            print("\nThere already exists a rental with this rental ID\n")
+        except rentedBook:
+            print("\nThe required book is rented\n")
+        except bookDoesNotExist:
+            print("\nThe required book doesn't exist\n")
+        except clientDoesNotExist:
+            print("\nThe  required client does not exist\n")
+        except badDate:
+            print("\nThe book was rented in that period\n")
+
+    def ui_return_book (self):
+        '''
+        Returns a book
+        '''
+        print("")
+        rentalId = input("Give rental ID: ").strip(" ")
+        returnedDate = input("Give return date(day.month.year): ").strip(" ")
+        print("")
+        d = returnedDate.split(".")
+        try:
+            returnedDate = date(int(d[2]), int(d[1]), int(d[0]))
+        except:
+            print("\nBad date\n")
+        else:
+            try:
+                self._repository.return_book(rentalId, returnedDate)
+                print("\nThe book was returned succesfully\n")
+            except badDates:
+                print("\nThe return date is smaller than the rent date\n")
+            except returnedBook:
+                print("\nThe book is already returned")
+            except rentalDoesNotExist:
+                print("\nThe required rental does not exist\n")
+            except badId:
+                print("\nThe rental id is not a natural number")
+            except badReturnDate:
+                print("\nThe book was borrowed in that period\n")
+
+    def start_rental_ui (self):
+        commands = {
+            "1" : self.list_rentals,
+            "2" : self.ui_add_rental,
+            "3" : self.ui_return_book,
+            "4" : self.list_books_UI,
+            "5" : self.list_clients_ui,
+            "6" : self.remove_book_UI,
+            "7" : self.remove_client_ui
+        }
+    
+        while True:
+            self.print_rental_menu()
+            choice = input("> ").strip(" ")
+            print("")
+            if choice in commands:
+                commands[choice]()
+                if choice == "2":
+                    self._repository.sort_rentals()
+            elif choice == "x":
+                return
+            else:
+                print("Invalid command")
+
+
 ui = UI()
-ui.start_book_ui()
+ui.start_rental_ui()
+

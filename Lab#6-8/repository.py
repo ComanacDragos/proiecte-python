@@ -1,6 +1,7 @@
 from domain import *
 from exceptions import *
 from random_words import *
+from datetime import date
 import random
 import copy
 
@@ -18,7 +19,19 @@ class Repository:
         for i in range(100,110):
             l = random.choice(names)
             self._clientList.append(Client(str(i), l))
+        
+        self._rentalList = []
+        self._rentalList.append(Rental("100", "100", "100", self.create_date(2019, 10, 11)))
+        self._rentalList.append(Rental("101", "101", "101", self.create_date(2019, 10, 11), self.create_date(2019, 10, 13)))
       
+    @staticmethod
+    def create_date (year, month, day):
+        d = date(year = year, month = month, day = day)
+        return d
+
+    @staticmethod
+    def valid_date (year, month, day):
+        pass
 
     def valid_ID (self, ID):
         '''
@@ -32,7 +45,7 @@ class Repository:
             if nr <= 0 or int(nr) != nr:
                 raise badId
 
-#----------------------------Book functions-----------------------------------       
+#----------------------------Book functions----------------------------------------------#
 
     def add_book (self, book):
         '''
@@ -89,6 +102,12 @@ class Repository:
         for i in self._bookList:
             if int(i.bookId) == int(ID):
                 self._bookList.remove(i)
+                rentals = []
+                for i in self._rentalList:
+                    if ID == i.bookId:
+                        rentals.append(i)
+                for i in rentals:
+                    self._rentalList.remove(i)
                 return
         raise IdDoesNotExist("Required book doesn't exist!")
 
@@ -181,6 +200,12 @@ class Repository:
         for i in self._clientList:
             if int(i.clientId) == int(ID):
                 self._clientList.remove(i)
+                rentals = []
+                for i in self._rentalList:
+                    if ID == i.clientId:
+                        rentals.append(i)
+                for i in rentals:
+                    self._rentalList.remove(i)
                 return
         raise IdDoesNotExist
 
@@ -205,4 +230,120 @@ class Repository:
         self._clientList.sort()
 
 
+# ------------------------------Rental functions----------------------------------------------#
 
+
+
+    def client_exists (self, ID):
+        '''
+        Checks if there is an client with given ID
+        Input:
+            ID - the required client id
+        '''
+        for i in self._clientList:
+            if i.clientId == ID:
+                return True
+        return False
+
+    def book_exists (self, ID):
+        '''
+        Checks if there is a book with given ID
+        Input:
+            ID - the required book id
+        '''
+        for i in self._bookList:
+            if i.bookId == ID:
+                return True
+        return False
+    
+    def add_rental (self, rental):
+        '''
+        Adds a rental to the list of rentals
+        Input:
+            rental - object of type rental
+        '''
+        self.valid_ID(rental.rentalId)
+        self.valid_ID(rental.bookId)
+        self.valid_ID(rental.clientId)
+
+        for i in self._rentalList:
+            if i.rentalId == rental.rentalId:
+                raise duplicateID
+            if i.bookId == rental.bookId:
+                if i.returnedDate == None:
+                    raise rentedBook
+                elif i.returnedDate != None:
+                    if rental.rentedDate < i.returnedDate and rental.rentedDate > i.rentedDate:
+                        raise badDate
+
+        if self.book_exists(rental.bookId) == False:
+            raise bookDoesNotExist
+        
+        if self.client_exists(rental.clientId) == False:
+            raise clientDoesNotExist
+        
+        self._rentalList.append(rental)
+
+    def remove_rental (self, ID):
+        '''
+        Removes all rentals with given ID
+        Input:
+            ID - rental ID
+        '''
+        for i in self._rentalList:
+            if i.rentalId == ID:
+                self._rentalList.remove(i)
+
+    @staticmethod
+    def intersected_dates (x1, y1, x2, y2):
+        '''
+        Checks if the periods of time intersect 
+        [x1, y1] - first time interval
+        [x2, y2] - second time interval
+        Where x1,y1,x2,y2 are dates and y2 may be None
+        Output:
+            True if they intersect
+            False otherwise
+        '''
+        if y2 == None:
+            if x2 > x1 and x2 < y1:
+                return False
+            return True
+        else:
+            
+            if x1 > y1 or x2 > y2:
+                return False
+            if y1 < x2 or x1 > y2:
+                return True
+            return False
+            
+        
+
+    def return_book (self, ID, date):
+        '''
+        Set the return date for a given rental
+        Input:
+            ID - rental ID
+            date - the return date
+        '''
+        self.valid_ID(ID)
+        for i in self._rentalList:
+            if i.rentalId == ID:
+                if i.returnedDate == None:
+                    if i.rentedDate > date:
+                        raise badDates
+                    else:
+                        for j in self._rentalList:
+                            if i.bookId == j.bookId and self.intersected_dates(i.rentedDate, date, j.rentedDate, j.returnedDate) ==False:
+                                raise badReturnDate
+                        i.returnedDate = date
+                        return
+                else:
+                    raise returnedBook
+        raise rentalDoesNotExist
+
+    def sort_rentals (self):
+        '''
+        Sorts the list of rentals with respect to rental id
+        '''
+        self._rentalList.sort()

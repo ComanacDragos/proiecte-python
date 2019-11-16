@@ -69,7 +69,7 @@ class Client:
         return int(self.clientId) < int(client.clientId)
 
 class Rental:
-    def __init__ (self, _ID, _BookId, _ClientId, _RentedDate, _ReturnedDate):
+    def __init__ (self, _ID, _BookId, _ClientId, _RentedDate, _ReturnedDate = None):
         self.rentalId = _ID
         self.bookId = _BookId
         self.clientId = _ClientId
@@ -117,5 +117,10 @@ class Rental:
         self._RentedDate = value
 
     def __str__ (self):
-        return "For the rentalId " + str(self.rentalId) + ", the bookId " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate) + " and the returned date is " + str(self.returnedDate)
-        
+        if self.returnedDate == None:
+           return "For the rentalId " + str(self.rentalId) + ", the bookId " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate.strftime("%d, %b %Y")) 
+        else:
+            return "For the rental Id " + str(self.rentalId) + ", the book Id " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate.strftime("%d, %b %Y")) + " and the returned date is " + str(self.returnedDate.strftime("%d, %b %Y"))
+
+    def __lt__ (self, rental):
+        return int(self.rentalId) < int(rental.rentalId)
