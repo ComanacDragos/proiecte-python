@@ -15,7 +15,7 @@ class UI:
 2. List books
 3. Remove book
 4. Update book
-x. Exit
+x. Go back to main menu
         '''
         print(menu)
 
@@ -131,7 +131,7 @@ x. Exit
 2. List clients
 3. Remove client
 4. Update client
-x. Exit
+x. Go back to main menu
 '''
         print (menu)
     def add_client_ui (self):
@@ -220,12 +220,15 @@ x. Exit
 3. Return a book
 4. List books
 5. List clients
-x. Exit
+x. Go back to main menu
         '''
         print(menu)
 
     def list_rentals (self):
         cont = 0
+        if len(self._repository._rentalList) == 0:
+            print("\nThere are no rentals\n")
+            return 
         for i in self._repository._rentalList:
             cont = cont + 1 
             print(str(cont) + ". " + str(i))
@@ -321,6 +324,28 @@ x. Exit
                 print("Invalid command")
 
 
-ui = UI()
-ui.start_rental_ui()
+    @staticmethod
+    def print_start_menu ():
+        menu = '''
+1. Manage books
+2. Manage clients
+3. Manage rentals
+x. Exit
+            '''
+        print(menu)
 
+    def start_menu_ui (self):
+        commands = {
+            "1" : self.start_book_ui,
+            "2" : self.start_client_ui,
+            "3" : self.start_rental_ui
+        }
+        while True:
+            self.print_start_menu()
+            choice = input(">").strip(" ")
+            if choice in commands:
+                commands[choice]()
+            elif choice == "x":
+                return
+            else:
+                print("\nInvalid command\n")

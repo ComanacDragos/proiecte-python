@@ -21,17 +21,57 @@ class Repository:
             self._clientList.append(Client(str(i), l))
         
         self._rentalList = []
-        self._rentalList.append(Rental("100", "100", "100", self.create_date(2019, 10, 11)))
-        self._rentalList.append(Rental("101", "101", "101", self.create_date(2019, 10, 11), self.create_date(2019, 10, 13)))
+        self.init_rentals()
+        #self._rentalList.append(Rental("100", "100", "100", self.create_date(2019, 10, 11)))
+        #self._rentalList.append(Rental("101", "101", "101", self.create_date(2019, 10, 11), self.create_date(2019, 10, 13)))
       
+
+    def init_rentals (self):
+        '''
+        Initializes the list of rentals with 10 objects
+        '''
+        cont = 100
+        while cont < 110:
+            book = random.choice(self.bookList)
+            client = random.choice(self.clientList)
+            year = 2019
+            month = 11
+            day = random.choice(range(1,31))
+            day2 = random.choice(range(1,31))# !!! problem it can genrate 22.nov.2019 and 21.nov 2019
+            d1 = self.create_date(year, month, day)
+            
+            choice = random.choice([1,2,3])
+
+            if choice == 1:
+                d2 = None            
+                rental = Rental(str(cont), book.bookId, client.clientId, d1)
+                try:
+                    self.add_rental(rental)        
+                    cont += 1
+                except:
+                    pass
+            
+            else:
+                d2 = self.create_date(year, month, day2)
+                rental = Rental(str(cont), book.bookId, client.clientId, d1)
+                try:
+                    self.add_rental(rental)
+                    cont += 1
+                    self.return_book(rental.rentalId, d2)
+                    
+                except:
+                    pass
+
+                
+
+
+
+
+
     @staticmethod
     def create_date (year, month, day):
         d = date(year = year, month = month, day = day)
         return d
-
-    @staticmethod
-    def valid_date (year, month, day):
-        pass
 
     def valid_ID (self, ID):
         '''
@@ -44,6 +84,18 @@ class Repository:
         else:
             if nr <= 0 or int(nr) != nr:
                 raise badId
+    
+    @property
+    def bookList (self):
+        return self._bookList
+    
+    @property
+    def clientList (self):
+        return self._clientList
+    
+    @property
+    def rentalList (self):
+        return self.rentalList
 
 #----------------------------Book functions----------------------------------------------#
 
@@ -273,7 +325,7 @@ class Repository:
                 if i.returnedDate == None:
                     raise rentedBook
                 elif i.returnedDate != None:
-                    if rental.rentedDate < i.returnedDate and rental.rentedDate > i.rentedDate:
+                    if rental.rentedDate <= i.returnedDate and rental.rentedDate >= i.rentedDate :
                         raise badDate
 
         if self.book_exists(rental.bookId) == False:
@@ -347,3 +399,4 @@ class Repository:
         Sorts the list of rentals with respect to rental id
         '''
         self._rentalList.sort()
+ 

@@ -118,7 +118,7 @@ class Rental:
 
     def __str__ (self):
         if self.returnedDate == None:
-           return "For the rentalId " + str(self.rentalId) + ", the bookId " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate.strftime("%d, %b %Y")) 
+           return "For the rental Id " + str(self.rentalId) + ", the book Id " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate.strftime("%d, %b %Y")) 
         else:
             return "For the rental Id " + str(self.rentalId) + ", the book Id " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate.strftime("%d, %b %Y")) + " and the returned date is " + str(self.returnedDate.strftime("%d, %b %Y"))
 
