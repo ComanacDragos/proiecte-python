@@ -1,5 +1,8 @@
 from domain import *
 
+class RepoError (Exception):
+    pass
+
 '''
 0. writing domain classes
 1. unit testing the proper way
@@ -56,3 +59,37 @@ class clientRepository:
         return self._data[:]
         #even safer
         return copy.deepcopy(self._data) 
+
+
+class Repository:
+    def __init__(self):
+        self._list = []
+
+    @property
+    def get_list (self):
+        return self._list
+
+    def store (self, object):
+        for i in self.get_list:
+            if i.Id == object.Id:
+                raise RepoError ("duplicate id")
+        self.get_list.append(object)
+
+    def find (self, id):
+        for i in range(0, len(self.get_list)):
+            if self.get_list[i].Id == id:
+                return i
+
+    def delete (self, id):
+        index = self.find(id)
+        if index == None:
+            raise RepoError("No such object")
+            
+        self.get_list.pop(self.find(id))
+    
+    def __getitem__ (self, value):
+        return self.get_list[value]
+     
+
+    def __len__ (self):
+        return len(self.get_list)
