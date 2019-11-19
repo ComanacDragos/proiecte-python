@@ -12,7 +12,7 @@ class Repository:
         self._bookList = []
         for i in range(100, 110):
             l = random.choice(books)
-            self._bookList.append(Book(str(i), l[0], l[1]))  
+            self._bookList.append(Book(str(i), l[1], l[0]))  
 
 
         self._clientList = []
