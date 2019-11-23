@@ -1,4 +1,6 @@
 from service import *
+
+'''
 class Tests:
 
     def __init__ (self):
@@ -118,6 +120,38 @@ class Tests:
         self.test_add_client()
         self.test_remove_client()
         self.test_update_client()
+'''
 
-test = Tests()
-test.run_tests()
+import unittest
+
+
+class test_repository (unittest.TestCase):
+    def __init__ (self):
+        self.repo = Repository([])
+        
+    
+    def test_store (self):
+        client = Client("10", "name")
+        self.repo.store(client)  
+
+
+        with self.assertRaises(duplicateID):
+            self.repo.store(client)
+
+    def test_delete (self):
+       
+        self.repo.delete("10")
+        self.assertEqual(len(self.repo), 1)
+
+        with self.assertRaises(IdDoesNotExist):
+            self.repo.delete("10")
+    
+    def new_test (self):
+        self.assertNotEqual(1,1)
+    
+    def run_tests (self):
+        self.new_test()
+
+#test = test_repository()
+#test.run_tests()
+

@@ -108,15 +108,6 @@ class Repository:
             duplicateBook - duplicate book id
         '''
         self.valid_ID(book.bookId)
-        '''
-        try:
-            book.bookId = int(book.bookId)
-        except:
-            raise badId
-        else:
-            if int(book.bookId) < 0 or int(book.bookId) != book.bookId:
-                raise badId
-        '''
         for i in self._bookList:
             if i == book:
                 raise duplicateID("Duplicate book id!")

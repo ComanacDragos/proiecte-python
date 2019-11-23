@@ -1,15 +1,15 @@
 class Book:
     def __init__ (self, _ID, _Title, _Author):
-        self.bookId = _ID
+        self.Id = _ID
         self.title = _Title
         self.author = _Author
 
     @property
-    def bookId (self):
+    def Id (self):
         return self._ID
 
-    @bookId.setter
-    def bookId (self, value):
+    @Id.setter
+    def Id (self, value):
         self._ID = value
 
     @property
@@ -29,26 +29,26 @@ class Book:
         self._Author = value
 
     def __eq__ (self, book):
-        return int(self.bookId) == int(book.bookId)
+        return int(self.Id) == int(book.Id)
 
     def __str__ (self):
-        return "The book id is " + str(self.bookId) + ", the author is " + str(self.author) + " and the title is " + str(self.title)
+        return "The book id is " + str(self.Id) + ", the author is " + str(self.author) + " and the title is " + str(self.title)
 
     def __lt__ (self, book):
-        return int(self.bookId) < int(book.bookId)
+        return int(self.Id) < int(book.Id)
 
 
 class Client:
     def __init__ (self, _ID, _Name):
-        self.clientId = _ID
+        self.Id = _ID
         self.name = _Name
 
     @property
-    def clientId (self):
+    def Id (self):
         return self._ID
     
-    @clientId.setter
-    def clientId (self, value):
+    @Id.setter
+    def Id (self, value):
         self._ID = value
 
     @property
@@ -60,28 +60,28 @@ class Client:
         self._Name = value
 
     def __str__ (self):
-        return "For " + str(self.name)+ " the client id is " + str(self.clientId) 
+        return "For " + str(self.name)+ " the client id is " + str(self.Id) 
     
     def __eq__ (self, client):
-        return int(self.clientId) == int(client.clientId)
+        return int(self.Id) == int(client.Id)
     
     def __lt__ (self, client):
-        return int(self.clientId) < int(client.clientId)
+        return int(self.Id) < int(client.Id)
 
 class Rental:
     def __init__ (self, _ID, _BookId, _ClientId, _RentedDate, _ReturnedDate = None):
-        self.rentalId = _ID
+        self.Id = _ID
         self.bookId = _BookId
         self.clientId = _ClientId
         self.rentedDate = _RentedDate
         self.returnedDate = _ReturnedDate
 
     @property
-    def rentalId (self):
+    def Id (self):
         return self._ID 
     
-    @rentalId.setter
-    def rentalId (self, value):
+    @Id.setter
+    def Id (self, value):
         self._ID = value
 
     @property
@@ -118,9 +118,9 @@ class Rental:
 
     def __str__ (self):
         if self.returnedDate == None:
-           return "For the rental Id " + str(self.rentalId) + ", the book Id " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate.strftime("%d, %b %Y")) 
+           return "For the rental Id " + str(self.Id) + ", the book Id " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate.strftime("%d, %b %Y")) 
         else:
-            return "For the rental Id " + str(self.rentalId) + ", the book Id " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate.strftime("%d, %b %Y")) + " and the returned date is " + str(self.returnedDate.strftime("%d, %b %Y"))
+            return "For the rental Id " + str(self.Id) + ", the book Id " + str(self.bookId) + " and the client id " +  str(self.clientId) + " the rented date is " +  str(self.rentedDate.strftime("%d, %b %Y")) + " and the returned date is " + str(self.returnedDate.strftime("%d, %b %Y"))
 
     def __lt__ (self, rental):
-        return int(self.rentalId) < int(rental.rentalId)
+        return int(self.Id) < int(rental.Id)
