@@ -373,7 +373,7 @@ x. Go back to main menu
         menu = '''
 1. Search for Id
 2. Search for name
-3. Go back to main menu
+x. Go back to main menu
         '''
         print(menu)
     
@@ -390,7 +390,7 @@ x. Go back to main menu
         elif choice == "2":
             word = input("\nGive name to search for: ").strip("")
             clients = self.clientsService.search_client_name(word)
-        elif choice == "3":
+        elif choice == "x":
             return
         else:
             print("\nInvalid command\n")
@@ -411,13 +411,38 @@ x. Go back to main menu
         if len(bookIds) == 0:
             print("\nThere are no books\n")
             return
-
+        bookIds = sorted(bookIds, key = bookIds.__getitem__, reverse = True)
         books = self.booksService.list_books_id(bookIds)
         books = self.booksService.list_books(books)
 
         for i in books:
             print(i)
+
+    def most_active_clients_ui (self):
+        clientIds = self.rentalsService.most_active_client()
+
+        if len(clientIds) == 0:
+            print("\nThere are no clients\n")
+            return
         
+        clients = self.clientsService.list_clients_Id(clientIds)
+        clients = self.booksService.list_books(clients)
+
+        for i in clients:
+            print(i)
+
+    def most_rented_author_ui (self):
+        idDict = self.rentalsService.most_rented_books()
+        authors = self.booksService.most_rented_author(idDict)
+        aux = authors
+
+        aux = sorted(aux, key = aux.__getitem__, reverse = True)
+        
+        cont = 0
+        for i in aux:
+            cont += 1
+            print(str(cont) + ". " + str(i) + ": " + str(authors[i]))
+
     @staticmethod
     def statistics_menu ():
         menu = '''
@@ -433,7 +458,9 @@ x. Go back to main menu
         choice = input(">").strip(" ")
 
         commands = {
-            "1" : self.most_rented_books_ui
+            "1" : self.most_rented_books_ui,
+            "2" : self.most_active_clients_ui,
+            "3" : self.most_rented_author_ui
         }
 
         if choice in commands:

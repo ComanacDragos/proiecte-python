@@ -40,12 +40,14 @@ class BooksService:
         Returns a list of book objects having ids from idList
         '''
         books = []
+        for i in idList:
+            index = self.booksRepo.find(i)
+            book = self.booksRepo[index]
+            books.append(book)
         for i in self.booksRepo:
-            if i.Id in idList:
+            if i.Id not in idList:
                 books.append(i)
-            else:
-                books.append(i)
-        return books    
+        return books
         
 
     def remove_bookID (self, ID):
@@ -146,6 +148,26 @@ class BooksService:
                 books.append(i)
         return books
 
+    def most_rented_author (self, idDict):
+        '''
+         This provides the list of book authored, sorted in descending order of the number of rentals their books have
+        '''
+        authors = {}
+        for i in idDict:
+            index = self.booksRepo.find(i)
+            book = self.booksRepo[index]
+
+            if book.author not in authors:
+                authors[book.author] = idDict[i]
+            else:
+                authors[book.author] += idDict[i]
+        
+        for i in self.booksRepo:
+            if i.Id not in idDict:
+                if i.author not in authors:
+                    authors[i.author] = 0
+
+        return authors
 
 class ClientsService:
     def __init__ (self, clientsRepo):
@@ -177,7 +199,22 @@ class ClientsService:
             count += 1
             clients.append(str(count) + ". " + str(i))
         return clients
-    
+
+    def list_clients_Id (self, clientIds):
+        '''
+        Returns a list of client object type, given a list of their ids
+        '''    
+        clients = []
+        for i in clientIds:
+            index = self.clientsRepo.find(i)
+            client = self.clientsRepo[index]
+            clients.append(client)
+        for i in self.clientsRepo:
+            if i.Id not in clientIds:
+                clients.append(i)
+        
+        return clients
+
     def remove_client (self,  ID):
         '''
         Removes a client with a given ID
@@ -368,14 +405,26 @@ class RentalsService:
 
     def most_rented_books (self):
         books = {}
-
         for i in self.rentalsRepo:
             if i.bookId not in books:
                 books[i.bookId] = 1
             else:
                 books[i.bookId] += 1
-        books = sorted(books, key = books.__getitem__, reverse = True)
-        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        return books
         
+    
+        return books
+
+    def most_active_client (self):
+        clients = {}
+        for i in self.rentalsRepo:
+            if i.clientId not in clients:
+                if i.returnedDate != None:
+                    clients[i.clientId] = (i.returnedDate - i.rentedDate).days
+            else:
+                if i.returnedDate != None:
+                    clients[i.clientId] += (i.returnedDate - i.rentedDate).days
+        
+        clients = sorted(clients, key=clients.__getitem__, reverse = 1)
+
+        return clients
 
