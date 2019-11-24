@@ -81,6 +81,9 @@ class Main:
 1. Manage books
 2. Manage clients
 3. Manage rentals
+4. Search for books
+5. Search for clients
+6. Statistics
 x. Exit
             '''
         print(menu)
@@ -89,7 +92,10 @@ x. Exit
         commands = {
             "1" : self.UI.start_book_ui,
             "2" : self.UI.start_client_ui,
-            "3" : self.UI.start_rental_ui
+            "3" : self.UI.start_rental_ui,
+            "4" : self.UI.search_book_ui,
+            "5" : self.UI.search_client_ui,
+            "6" : self.UI.statistics_ui
         }
         while True:
             self.print_start_menu()

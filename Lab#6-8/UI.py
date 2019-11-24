@@ -327,3 +327,114 @@ x. Go back to main menu
                 return
             else:
                 print("Invalid command")
+
+    @staticmethod
+    def search_book_menu ():
+        menu = '''
+1. Search for Id
+2. Search author
+3. Search title
+x. Go back to main menu
+        '''
+        print(menu)
+
+    def search_book_ui (self):
+        '''
+        Reads a word and searches for books that contain that word in either one of their fields
+        '''       
+        self.search_book_menu()
+        choice = input(">").strip(" ")
+
+        if choice == "1":
+            word = input("\nGive id to search for: ").strip("")
+            books = self.booksService.search_book_Id(word)
+        elif choice == "2":
+            word = input("\nGive author to search for: ").strip("")
+            books = self.booksService.search_book_author(word)
+        elif choice == "3":
+            word = input("\nGive title to search for: ").strip("")
+            books = self.booksService.search_book_title(word)
+        elif choice == "x":
+            return
+        else:
+            print("\nInvalid command\n")
+            return
+        
+        if len(books) == 0:
+            print("\nThere are no books matching this description\n")
+            return
+        cont = 0
+        for i in books:
+            cont += 1
+            print(str(cont) + ". " + str(i))
+
+    @staticmethod
+    def search_client_menu ():
+        menu = '''
+1. Search for Id
+2. Search for name
+3. Go back to main menu
+        '''
+        print(menu)
+    
+    def search_client_ui (self):
+        '''
+        Reads a word and searches for clients that contain that word in either one of their fields
+        '''
+        self.search_client_menu()
+        choice = input(">").strip(" ")
+        
+        if choice == "1":
+            word = input("\nGive id to search for: ").strip("")
+            clients = self.clientsService.search_client_id(word)
+        elif choice == "2":
+            word = input("\nGive name to search for: ").strip("")
+            clients = self.clientsService.search_client_name(word)
+        elif choice == "3":
+            return
+        else:
+            print("\nInvalid command\n")
+            return
+        
+        if len(clients) == 0:
+            print("\nThere are no clients matching that description\n") 
+            return
+        
+        cont = 0
+        for i in clients:
+            cont += 1
+            print(str(cont) + ". " + str(i))
+        
+    def most_rented_books_ui (self):
+        bookIds = self.rentalsService.most_rented_books()
+
+        if len(bookIds) == 0:
+            print("\nThere are no books\n")
+            return
+
+        books = self.booksService.list_books_id(bookIds)
+        books = self.booksService.list_books(books)
+
+        for i in books:
+            print(i)
+        
+    @staticmethod
+    def statistics_menu ():
+        menu = '''
+1. Most rented books
+2. Most active clients
+3. Most rented author
+x. Go back to main menu
+        '''
+        print(menu)
+    
+    def statistics_ui (self):
+        self.statistics_menu()
+        choice = input(">").strip(" ")
+
+        commands = {
+            "1" : self.most_rented_books_ui
+        }
+
+        if choice in commands:
+            commands[choice]()

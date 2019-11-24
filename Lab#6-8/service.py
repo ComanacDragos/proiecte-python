@@ -1,6 +1,7 @@
 from newRepository import *
 from datetime import date
 
+
 class BooksService:
     def __init__ (self, booksRepo):
         self.booksRepo = booksRepo
@@ -33,6 +34,19 @@ class BooksService:
             count += 1
             books.append(str(count) + ". " + str(i))
         return books
+
+    def list_books_id (self, idList):
+        '''
+        Returns a list of book objects having ids from idList
+        '''
+        books = []
+        for i in self.booksRepo:
+            if i.Id in idList:
+                books.append(i)
+            else:
+                books.append(i)
+        return books    
+        
 
     def remove_bookID (self, ID):
         '''
@@ -101,7 +115,36 @@ class BooksService:
             if i.Id == ID:
                 return True
         return False
+    
+    def search_book_Id (self, Id):
+        '''
+        Returns a list of all books that have the string Id book Id
+        '''
+        books = []
+        for i in self.booksRepo:
+            if Id.upper() in i.Id.upper():
+                books.append(i)
+        return books
 
+    def search_book_author (self, author):
+        '''
+        Returns a list of all books that have the string author book author
+        '''
+        books = []
+        for i in self.booksRepo:
+            if author.upper() in i.author.upper():
+                books.append(i)
+        return books
+
+    def search_book_title (self, title):
+        '''
+        Returns a list of all books that have the string title book title
+        '''
+        books = []
+        for i in self.booksRepo:
+            if title.upper() in i.title.upper():
+                books.append(i)
+        return books
 
 
 class ClientsService:
@@ -175,8 +218,25 @@ class ClientsService:
                 return True
         return False
 
-
-
+    def search_client_id (self, Id):
+        '''
+        Search for a client using partial string matching for id
+        '''
+        clients = []
+        for i in self.clientsRepo:
+            if Id.upper() in i.Id.upper():
+                clients.append(i)
+        return clients
+    
+    def search_client_name (self, name):
+        '''
+        Search for a client using partial string matching for name
+        '''
+        clients = []
+        for i in self.clientsRepo:
+            if name.upper() in i.name.upper():
+                clients.append(i)
+        return clients
 
 
 
@@ -304,3 +364,18 @@ class RentalsService:
         '''
         for i in rentals:
             self.rentalsRepo.store(i)
+
+
+    def most_rented_books (self):
+        books = {}
+
+        for i in self.rentalsRepo:
+            if i.bookId not in books:
+                books[i.bookId] = 1
+            else:
+                books[i.bookId] += 1
+        books = sorted(books, key = books.__getitem__, reverse = True)
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return books
+        
+
