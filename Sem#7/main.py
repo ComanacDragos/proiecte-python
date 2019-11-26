@@ -22,7 +22,7 @@ rentalRepo.store(Rental(2,date(2010,11,20), date(2010,11,25), cl2, car2))
 
 carService = CarService(carRepo)
 ClientService = ClientService(clientRepo)
-RentalService = RentalService(rentalRepo)
+RentalService = RentalService(rentalRepo, carRepo, clientRepo)
 
 
 #ui and start program

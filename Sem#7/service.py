@@ -93,6 +93,3 @@ class RentalService:
                 d[rent.Car] = len(rent)
             else:
                 d[rent.Car] += len(rent)
-
-        for i in range(len(self._carRepo)):
-            if self._carRepo[i].Id
