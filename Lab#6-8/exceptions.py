@@ -69,3 +69,9 @@ class badReturnDate (Exception):
     The given return date is in a period in which the book was borrowed
     '''
     pass
+
+class noMoreUndos (Exception):
+    pass
+
+class noMoreRedos (Exception):
+    pass

@@ -428,3 +428,73 @@ class RentalsService:
 
         return clients
 
+
+
+class FunctionCall:
+    def __init__ (self, function, *parameters):
+        self.function = function
+        self.params = parameters
+    
+    def call (self):
+        self.function(*self.params)
+    
+
+class Operation:
+    def __init__ (self, undoFunction, redoFunction):
+        self._undo = undoFunction
+        self._redo = redoFunction
+
+    def undo (self):
+        self._undo.call()
+    
+    def redo (self):
+        self._redo.call()
+
+class Cascade:
+    def __init__ (self, operationList):
+        self.operations = operationList
+
+    def undo (self):
+        for i in self.operations:
+            i.undo()
+    
+
+class UndoService:
+    def __init__ (self):
+        self.history = []
+        self.index = 0
+        self.duringUndo = False
+
+    def record (self, operation):
+        if self.duringUndo == True:
+            return 
+        
+        if self.index < len(self.history):
+            self.history = self.history[:self.index]
+        
+        self.history.append(operation)
+        self.index += 1
+    
+    def undo (self):
+        if self.index == 0:
+            raise noMoreUndos
+
+        self.duringUndo = True
+
+        self.index -= 1
+        self.history[self.index].undo()
+
+        self.duringUndo = False
+    
+    def redo (self):
+        if self.index == len(self.history):
+            raise noMoreRedos
+
+        self.duringUndo = True
+
+        self.history[self.index].redo()
+        self.index += 1
+
+        self.duringUndo = False
+
+
