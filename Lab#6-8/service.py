@@ -458,6 +458,9 @@ class Cascade:
         for i in self.operations:
             i.undo()
     
+    def redo(self):
+        for i in self.operations:
+            i.redo()
 
 class UndoService:
     def __init__ (self):
@@ -497,4 +500,5 @@ class UndoService:
 
         self.duringUndo = False
 
-
+    def clear_history (self):
+        self.history.clear()
