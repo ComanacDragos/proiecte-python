@@ -29,7 +29,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python tests.Unittests in tests.py">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="proiecte_python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -49,20 +49,6 @@
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for tests.test_repo_service.test_BooksService_add_book" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="proiecte_python" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Lab#6-8" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;tests.test_repo_service.test_BooksService_add_book&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Unittests for tests.test_repo_service.test_BooksService_list_books" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
@@ -93,6 +79,20 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests for tests.test_repo_service.test_ClientsService_list_clients" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="proiecte_python" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Lab#6-8" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_repo_service.test_ClientsService_list_clients&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unittests in tests.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="proiecte_python" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -109,11 +109,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Unittests in tests.py" />
+        <item itemvalue="Python tests.Unittests for tests.test_repo_service.test_ClientsService_list_clients" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Unittests for tests.test_repo_service.test_BooksService_list_books" />
         <item itemvalue="Python tests.Unittests for tests.test_repo_service.test_BooksService_remove_bookId" />
-        <item itemvalue="Python tests.Unittests for tests.test_repo_service.test_BooksService_add_book" />
       </list>
     </recent_temporary>
   </component>

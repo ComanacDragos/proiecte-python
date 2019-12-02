@@ -59,6 +59,8 @@ class Client:
     def name (self, value):
         self._Name = value
 
+
+
     def __str__ (self):
         return "For " + str(self.name)+ " the client id is " + str(self.Id) 
     
@@ -124,3 +126,4 @@ class Rental:
 
     def __lt__ (self, rental):
         return int(self.Id) < int(rental.Id)
+

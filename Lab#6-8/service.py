@@ -3,8 +3,9 @@ from datetime import date
 
 
 class BooksService:
-    def __init__ (self, booksRepo):
+    def __init__ (self, booksRepo, undoService = None):
         self.booksRepo = booksRepo
+        self.undoService = undoService
     
     def add_book (self, book):
         '''
@@ -17,6 +18,12 @@ class BooksService:
         if len(str(book.author)) == 0 or len(str(book.title)) == 0:
             raise emptyString
         self.booksRepo.store(book)
+
+        undoOp = FunctionCall(self.remove_bookID, book.Id)
+        redoOp = FunctionCall(self.add_book, book)
+        operation = Operation(undoOp, redoOp)
+
+        self.undoService.record(operation)
 
     def list_books (self, listOfBooks = None):
         '''
@@ -397,7 +404,7 @@ class RentalsService:
     
     def add_rentals (self, rentals):
         '''
-        Removes multiple rentals from a list of rentals
+        Adds multiple rentals from a list of rentals
         '''
         for i in rentals:
             self.rentalsRepo.store(i)
@@ -480,7 +487,7 @@ class UndoService:
     
     def undo (self):
         if self.index == 0:
-            raise noMoreUndos
+            raise noMoreUndos ("\nNo more undos are possible")
 
         self.duringUndo = True
 
@@ -491,7 +498,7 @@ class UndoService:
     
     def redo (self):
         if self.index == len(self.history):
-            raise noMoreRedos
+            raise noMoreRedos ("\nNo more redos are possible\n")
 
         self.duringUndo = True
 
@@ -502,3 +509,56 @@ class UndoService:
 
     def clear_history (self):
         self.history.clear()
+
+
+
+
+'''
+
+
+class test1 ():
+    def __init__ (self, service1, service2):
+        self.service1 = service1
+        self.service2 = service2
+
+class service1 ():
+    def __init__ (self, service2):
+        self.service2 = service2
+    
+    def print_sum_thing (self, a):
+        print(a)
+
+class service2 ():
+    def __init__ (self, service1):
+        self.service1 = service1
+    
+    def print_another (self, a):
+        print(a)
+
+
+s1 = service1()
+
+
+def schimba (a,b):
+    aux = a
+    a = b
+    b = aux
+
+def sort (lista):
+    i = 0
+    j = 0
+    while i < len(lista):
+        while j < len(lista):
+            if lista[i][0] < lista[j][0]:
+                aux = lista[i]
+                lista[i] = lista[j]
+                lista[j] = aux
+            elif lista[i][0] == lista[j][0] and lista[i][1] < lista[j][1]:
+                aux = lista[i]
+                lista[i] = lista[j]
+                lista[j] = aux
+            j += 1
+        i += 1
+
+        
+'''

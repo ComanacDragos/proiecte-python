@@ -5,9 +5,11 @@ import random
 
 class Main:
     def __init__ (self):
+
+        self.undoService = UndoService()
         
         self.bookRepo = Repository(self.init_book_repo())
-        self.booksService = BooksService(self.bookRepo)
+        self.booksService = BooksService(self.bookRepo, self.undoService)
 
         self.clientRepo = Repository(self.init_client_repo())
         self.clientsService = ClientsService(self.clientRepo)
@@ -16,7 +18,7 @@ class Main:
         self.rentalsService = RentalsService(self.rentalRepo, self.booksService, self.clientsService) 
         self.init_rentals()
 
-        self.UI = UI(self.booksService, self.clientsService, self.rentalsService)
+        self.UI = UI(self.booksService, self.clientsService, self.rentalsService, self.undoService)
 
 
 
@@ -84,6 +86,8 @@ class Main:
 4. Search for books
 5. Search for clients
 6. Statistics
+7. Undo
+8. Redo
 x. Exit
             '''
         print(menu)
@@ -95,7 +99,9 @@ x. Exit
             "3" : self.UI.start_rental_ui,
             "4" : self.UI.search_book_ui,
             "5" : self.UI.search_client_ui,
-            "6" : self.UI.statistics_ui
+            "6" : self.UI.statistics_ui,
+            "7" : self.UI.undo_ui,
+            "8" : self.UI.redo_ui
         }
         while True:
             self.print_start_menu()

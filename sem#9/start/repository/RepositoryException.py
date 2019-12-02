@@ -7,3 +7,13 @@ class RepositoryException(Exception):
 
     def __str__(self):
         return self._message
+
+
+def f ():
+    raise RepositoryException("asdasdblabla")
+
+
+try:
+    f()
+except RepositoryException as mes:
+    print(mes)

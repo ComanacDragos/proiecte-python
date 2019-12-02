@@ -5,4 +5,3 @@ from package1.package11.package11 import f3
 
 f_service()
 f()
-f3()

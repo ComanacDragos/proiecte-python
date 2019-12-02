@@ -52,7 +52,7 @@ class test_repo_service (unittest.TestCase):
             repo.delete("103")
 
     def test_BooksService_add_book (self):
-        service = BooksService(Repository([]))
+        service = BooksService(Repository([]), UndoService())
 
         book = Book("103", "titlu", "author")
 
@@ -140,4 +140,5 @@ class test_repo_service (unittest.TestCase):
         service.update_client_name("101", "newName")
 
         self.assertEqual(service.clientsRepo[1].name, "newName")
+
 

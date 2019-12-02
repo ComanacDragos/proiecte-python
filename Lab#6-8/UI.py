@@ -1,10 +1,11 @@
 from service import *
 
 class UI:
-    def __init__ (self, booksService, clientsService, rentalsService):
+    def __init__ (self, booksService, clientsService, rentalsService, undoService):
         self.booksService = booksService
         self.clientsService = clientsService
         self.rentalsService = rentalsService
+        self.undoService = undoService
 
 #-----------------------Books----------------------------------------------------------------#
 
@@ -56,13 +57,39 @@ x. Go back to main menu
         ID = input("Give the book ID: ")
 
         try:
+            book = self.booksService.search_book_Id(ID)[0]
+            bookdIdRentals = self.rentalsService.bookId_rentals(ID)
+            
             self.booksService.remove_bookID(ID)
-            self.rentalsService.remove_rentals(self.rentalsService.bookId_rentals(ID))
+            self.rentalsService.remove_rentals(bookdIdRentals)
             print("\nThe book was removed succesfully\n")
+
+            operationList = []
+            
+            f_undo = FunctionCall(self.booksService.add_book, book)
+            f_redo = FunctionCall(self.booksService.remove_bookID, ID)
+            operation = Operation(f_undo, f_redo)
+            
+            operationList.append(operation)
+
+            f_undo = FunctionCall(self.rentalsService.add_rentals, bookdIdRentals)
+            f_redo = FunctionCall(self.rentalsService.remove_rentals, bookdIdRentals)
+            operation = Operation(f_undo, f_redo)
+
+            operationList.append(operation)   
+
+            operations = Cascade(operationList)
+
+            self.undoService.record(operations)
+
+
+
         except IdDoesNotExist:
             print("\nThe required book does not exist\n")
         except badId:
-            print("\nThe id not a natural number")
+            print("\nThe id not a natural number\n")
+        except IndexError:
+            print("\nThe id not a natural number\n")
 
     def update_book_UI (self):
         '''
@@ -118,9 +145,9 @@ x. Go back to main menu
             print("")
             choice = choice.strip(" ")
             if choice in commands:
-                commands[choice]()
-                if choice in ["1", "3"]:
+                if choice in ["2"]:
                     self.booksService.sort_book_list()
+                commands[choice]()
             elif choice == "x":
                 return
             else:
@@ -212,7 +239,7 @@ x. Go back to main menu
             choice = choice.strip(" ")
             if choice in commands:
                 commands[choice]()
-                if choice in ["1", "3"]:
+                if choice in ["2"]:
                     self.clientsService.sort_client_list()
             elif choice == "x":
                 return
@@ -320,9 +347,9 @@ x. Go back to main menu
             choice = input("> ").strip(" ")
             print("")
             if choice in commands:
-                commands[choice]()
-                if choice == "2":
+                if choice == "1":
                     self.rentalsService.sort_rentals()
+                commands[choice]()
             elif choice == "x":
                 return
             else:
@@ -465,3 +492,19 @@ x. Go back to main menu
 
         if choice in commands:
             commands[choice]()
+
+    def undo_ui (self):
+        try:
+            self.undoService.undo()
+            print("\nThe undo was succesfull\n")
+        except noMoreUndos as err:
+            print(err)
+
+    def redo_ui (self):
+        try:
+            self.undoService.redo()
+            print("\nThe redo was succesfull\n")
+        except noMoreRedos as err:
+            print(err)
+
+
