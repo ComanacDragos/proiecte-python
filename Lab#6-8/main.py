@@ -12,10 +12,10 @@ class Main:
         self.booksService = BooksService(self.bookRepo, self.undoService)
 
         self.clientRepo = Repository(self.init_client_repo())
-        self.clientsService = ClientsService(self.clientRepo)
+        self.clientsService = ClientsService(self.clientRepo, self.undoService)
        
         self.rentalRepo = Repository([])
-        self.rentalsService = RentalsService(self.rentalRepo, self.booksService, self.clientsService) 
+        self.rentalsService = RentalsService(self.rentalRepo, self.booksService, self.clientsService, self.undoService)
         self.init_rentals()
 
         self.UI = UI(self.booksService, self.clientsService, self.rentalsService, self.undoService)

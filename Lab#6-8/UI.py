@@ -57,39 +57,14 @@ x. Go back to main menu
         ID = input("Give the book ID: ")
 
         try:
-            book = self.booksService.search_book_Id(ID)[0]
-            bookdIdRentals = self.rentalsService.bookId_rentals(ID)
-            
-            self.booksService.remove_bookID(ID)
-            self.rentalsService.remove_rentals(bookdIdRentals)
+            self.rentalsService.remove_book_and_rentals(ID)
             print("\nThe book was removed succesfully\n")
-
-            operationList = []
-            
-            f_undo = FunctionCall(self.booksService.add_book, book)
-            f_redo = FunctionCall(self.booksService.remove_bookID, ID)
-            operation = Operation(f_undo, f_redo)
-            
-            operationList.append(operation)
-
-            f_undo = FunctionCall(self.rentalsService.add_rentals, bookdIdRentals)
-            f_redo = FunctionCall(self.rentalsService.remove_rentals, bookdIdRentals)
-            operation = Operation(f_undo, f_redo)
-
-            operationList.append(operation)   
-
-            operations = Cascade(operationList)
-
-            self.undoService.record(operations)
-
-
-
         except IdDoesNotExist:
             print("\nThe required book does not exist\n")
         except badId:
             print("\nThe id not a natural number\n")
         except IndexError:
-            print("\nThe id not a natural number\n")
+            print("\nThe id is not a natural number\n")
 
     def update_book_UI (self):
         '''
@@ -182,6 +157,8 @@ x. Go back to main menu
             print("\nThe id is not a natural number\n")
         except duplicateID:
             print("\nA client with this id already exists\n")
+        except emptyString:
+            print("\nThe name is empty\n")
 
     def list_clients_ui (self):
         '''
@@ -208,6 +185,8 @@ x. Go back to main menu
             print("\nThe required id does not exist\n")
         except badId:
             print("\nThe id is not a natural number\n")
+        except IndexError:
+            print("\nThe index is not a natural number\n")
 
     def update_client_ui (self):
         '''
@@ -238,9 +217,9 @@ x. Go back to main menu
             print("")
             choice = choice.strip(" ")
             if choice in commands:
-                commands[choice]()
                 if choice in ["2"]:
                     self.clientsService.sort_client_list()
+                commands[choice]()
             elif choice == "x":
                 return
             else:

@@ -84,7 +84,15 @@ class BooksService:
         
         for i in self.booksRepo:
             if i.Id == ID:
+                oldAuthor = i.author
                 i.author = author
+
+                undoOp = FunctionCall(self.update_book_author, ID, oldAuthor)
+                redoOp = FunctionCall(self.update_book_author, ID, author)
+                operation = Operation(undoOp, redoOp)
+
+                self.undoService.record(operation)
+
                 return
         raise IdDoesNotExist("Required book doesn't exist")
 
@@ -104,7 +112,15 @@ class BooksService:
 
         for i in self.booksRepo:
             if i.Id == ID:
+                oldTitle = i.title
                 i.title = title
+
+                undoOp = FunctionCall(self.update_book_title, ID, oldTitle)
+                redoOp = FunctionCall(self.update_book_title, ID, title)
+                operation = Operation(undoOp, redoOp)
+
+                self.undoService.record(operation)
+
                 return
         raise IdDoesNotExist("Required book doesn't exist")
 
@@ -177,8 +193,9 @@ class BooksService:
         return authors
 
 class ClientsService:
-    def __init__ (self, clientsRepo):
+    def __init__ (self, clientsRepo, undoService = None):
         self.clientsRepo = clientsRepo
+        self.undoService = undoService
 
     
     def add_client (self, client):
@@ -187,7 +204,16 @@ class ClientsService:
         Input:
             client - object of type Client
         '''
+        if len(client.name) == 0:
+            raise emptyString
+
         self.clientsRepo.store(client)
+
+        undoOp = FunctionCall(self.remove_client, client.Id)
+        redoOp = FunctionCall(self.add_client, client)
+        operation = Operation(undoOp, redoOp)
+
+        self.undoService.record(operation)
 
     
     def list_clients (self, clientList = None):
@@ -285,10 +311,11 @@ class ClientsService:
 
 
 class RentalsService:
-    def __init__ (self, rentalsRepo, booksService, clientsService):
+    def __init__ (self, rentalsRepo, booksService, clientsService, undoService):
         self.rentalsRepo = rentalsRepo
         self.booksService = booksService
         self. clientsService = clientsService
+        self.undoService = undoService
    
         
 
@@ -435,7 +462,55 @@ class RentalsService:
 
         return clients
 
+    def remove_book_and_rentals (self, ID):
+        book = self.booksService.search_book_Id(ID)[0]
+        bookdIdRentals = self.bookId_rentals(ID)
 
+        self.booksService.remove_bookID(ID)
+        self.remove_rentals(bookdIdRentals)
+
+        operationList = []
+
+        f_undo = FunctionCall(self.booksService.add_book, book)
+        f_redo = FunctionCall(self.booksService.remove_bookID, ID)
+        operation = Operation(f_undo, f_redo)
+
+        operationList.append(operation)
+
+        f_undo = FunctionCall(self.add_rentals, bookdIdRentals)
+        f_redo = FunctionCall(self.remove_rentals, bookdIdRentals)
+        operation = Operation(f_undo, f_redo)
+
+        operationList.append(operation)
+
+        operations = Cascade(operationList)
+
+        self.undoService.record(operations)
+
+    def remove_client_and_rentals(self, ID):
+        client = self.clientsService.search_client_id(ID)[0]
+        clientIdRentals = self.clientId_rentals(ID)
+
+        self.clientsService.remove_client(ID)
+        self.remove_rentals(clientIdRentals)
+
+        operationList = []
+
+        f_undo = FunctionCall(self.clientsService.add_client(client))
+        f_redo = FunctionCall(self.clientsService.remove_client(ID))
+        operation = Operation(f_undo, f_redo)
+
+        operationList.append(operation)
+
+        f_undo = FunctionCall(self.add_rentals, clientIdRentals)
+        f_redo = FunctionCall(self.remove_rentals, clientIdRentals)
+        operation = Operation(f_undo, f_redo)
+
+        operationList.append(operation)
+
+        operations = Cascade(operationList)
+
+        self.undoService.record(operations)
 
 class FunctionCall:
     def __init__ (self, function, *parameters):
