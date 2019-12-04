@@ -18,6 +18,8 @@ class Main:
         self.rentalsService = RentalsService(self.rentalRepo, self.booksService, self.clientsService, self.undoService)
         self.init_rentals()
 
+        self.undoService.clear_history()
+
         self.UI = UI(self.booksService, self.clientsService, self.rentalsService, self.undoService)
 
 

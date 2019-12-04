@@ -178,8 +178,7 @@ x. Go back to main menu
         '''
         ID = input("Give the id: ").strip(" ")
         try:
-            self.clientsService.remove_client(ID)
-            self.rentalsService.remove_rentals(self.rentalsService.clientId_rentals(ID))
+            self.rentalsService.remove_client_and_rentals(ID)
             print("\nThe client was removed succesfully")
         except IdDoesNotExist:
             print("\nThe required id does not exist\n")
@@ -201,6 +200,8 @@ x. Go back to main menu
             print("\nThe id is not a natural number\n")
         except IdDoesNotExist:
             print("\nThe required client does not exist")
+        except emptyString:
+            print("\nThe name is void\n")
     
 
     def start_client_ui (self):

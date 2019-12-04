@@ -87,7 +87,7 @@ class test_repo_service (unittest.TestCase):
         self.assertEqual(service.booksRepo[0].Id, "104")
 
     def test_BooksService_update_book (self):
-        service = BooksService(Repository([Book("103", "title1", "author"), Book("104", "title2", "author")]))
+        service = BooksService(Repository([Book("103", "title1", "author"), Book("104", "title2", "author")]), UndoService())
 
         service.update_book_author("103", "asd103")
         service.update_book_title("104", "asd104")
@@ -108,7 +108,7 @@ class test_repo_service (unittest.TestCase):
             service.update_book_title("105", "asd")
         
     def test_ClientsService_add_client(self):
-        service = ClientsService(Repository([Client("100", "name1"), Client("101", "name2")]))
+        service = ClientsService(Repository([Client("100", "name1"), Client("101", "name2")]), UndoService())
 
         cl1 = Client("102", "name3")
 
@@ -135,7 +135,7 @@ class test_repo_service (unittest.TestCase):
         self.assertEqual(service.clientsRepo[-1].name, "name2")
 
     def test_ClientsService_update_client_name (self):
-        service = ClientsService(Repository([Client("100", "name1"), Client("101", "name2")]))
+        service = ClientsService(Repository([Client("100", "name1"), Client("101", "name2")]), UndoService())
 
         service.update_client_name("101", "newName")
 

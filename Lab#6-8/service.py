@@ -264,9 +264,20 @@ class ClientsService:
             name - the new name
         '''
         self.clientsRepo.valid_ID(ID)
+        if len(name) == 0:
+            raise emptyString
+
         for i in self.clientsRepo:
             if int(i.Id) == int(ID):
+                oldName = i.name
                 i.name = name
+
+                undoOp = FunctionCall(self.update_client_name, ID, oldName)
+                redoOp = FunctionCall(self.update_client_name, ID, name)
+                operation = Operation(undoOp, redoOp)
+
+                self.undoService.record(operation)
+
                 return
         raise IdDoesNotExist
 
@@ -348,6 +359,15 @@ class RentalsService:
 
         self.rentalsRepo.store(rental)
 
+        undoOp = FunctionCall(self.remove_rental, rental.Id)
+        redoOp = FunctionCall(self.add_rental, rental)
+        operation = Operation(undoOp, redoOp)
+
+        self.undoService.record(operation)
+
+    def remove_rental (self, rentalId):
+        self.rentalsRepo.delete(rentalId)
+
     @staticmethod
     def intersected_dates (x1, y1, x2, y2):
         '''
@@ -389,11 +409,23 @@ class RentalsService:
                         for j in self.rentalsRepo:
                             if i.bookId == j.bookId and self.intersected_dates(i.rentedDate, date, j.rentedDate, j.returnedDate) ==False:
                                 raise badReturnDate
+                        oldDate = i.returnedDate
                         i.returnedDate = date
+
+                        undoOp = FunctionCall(self.set_return_date_none, i)
+                        redoOp = FunctionCall(self.return_book, ID, date)
+
+                        operation = Operation(undoOp, redoOp)
+
+                        self.undoService.record(operation)
+
                         return
                 else:
                     raise returnedBook
         raise rentalDoesNotExist
+
+    def set_return_date_none(self, rental):
+        rental.returnedDate = None
 
     def sort_rentals (self):
         '''
@@ -496,8 +528,8 @@ class RentalsService:
 
         operationList = []
 
-        f_undo = FunctionCall(self.clientsService.add_client(client))
-        f_redo = FunctionCall(self.clientsService.remove_client(ID))
+        f_undo = FunctionCall(self.clientsService.add_client, client)
+        f_redo = FunctionCall(self.clientsService.remove_client, ID)
         operation = Operation(f_undo, f_redo)
 
         operationList.append(operation)
@@ -562,7 +594,7 @@ class UndoService:
     
     def undo (self):
         if self.index == 0:
-            raise noMoreUndos ("\nNo more undos are possible")
+            raise noMoreUndos ("\nNo more undos are possible\n")
 
         self.duringUndo = True
 
@@ -584,56 +616,5 @@ class UndoService:
 
     def clear_history (self):
         self.history.clear()
+        self.index = 0
 
-
-
-
-'''
-
-
-class test1 ():
-    def __init__ (self, service1, service2):
-        self.service1 = service1
-        self.service2 = service2
-
-class service1 ():
-    def __init__ (self, service2):
-        self.service2 = service2
-    
-    def print_sum_thing (self, a):
-        print(a)
-
-class service2 ():
-    def __init__ (self, service1):
-        self.service1 = service1
-    
-    def print_another (self, a):
-        print(a)
-
-
-s1 = service1()
-
-
-def schimba (a,b):
-    aux = a
-    a = b
-    b = aux
-
-def sort (lista):
-    i = 0
-    j = 0
-    while i < len(lista):
-        while j < len(lista):
-            if lista[i][0] < lista[j][0]:
-                aux = lista[i]
-                lista[i] = lista[j]
-                lista[j] = aux
-            elif lista[i][0] == lista[j][0] and lista[i][1] < lista[j][1]:
-                aux = lista[i]
-                lista[i] = lista[j]
-                lista[j] = aux
-            j += 1
-        i += 1
-
-        
-'''
