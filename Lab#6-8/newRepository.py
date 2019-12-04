@@ -52,3 +52,33 @@ class Repository:
 
     def sort (self):
         self.get_list.sort()
+
+class FileRepository (Repository):
+    def __init__ (self, filename, Class):
+        super().__init__([])
+        self._filename = filename
+        self._Class = Class
+        self._loadFile()
+
+    def _loadFile (self):
+        file = open(self._filename, "r")
+        lines = file.readlines()
+        for i in lines:
+            i = i.strip()
+            line = i.split(",")
+            newObject = self._Class(*line)
+            self.store(newObject)
+        file.close()
+
+    def _storeFile (self):
+        file = open(self._filename, "w")
+        for i in self.get_list():
+            pass
+
+book = Book("100","asd", "bsdf")
+list = vars(book).items()
+#for i in vars(book).items():
+    #str += i[1]
+
+str = "abc"
+print(str)

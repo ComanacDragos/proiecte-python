@@ -14,7 +14,7 @@
   <component name="ProjectId" id="1USrBg9IjiMfjXuHXprFDiMGUQ8" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Sem#10/repository/CarTextRepoFile.py" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RunDashboard">
@@ -29,7 +29,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests in tests.py">
+  <component name="RunManager" selected="Python.newRepository">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Lab#6-8" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -51,7 +51,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="service" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="newRepository" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Lab#6-8" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -63,7 +63,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/service.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/newRepository.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -116,11 +116,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.newRepository" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Unittests in tests.py" />
         <item itemvalue="Python tests.Unittests for tests.test_repo_service.test_BooksService_update_book" />
         <item itemvalue="Python tests.Unittests for tests.test_repo_service" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.service" />
       </list>
     </recent_temporary>
   </component>

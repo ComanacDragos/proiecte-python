@@ -1,0 +1,10 @@
+100,Alexandre Dumas,Dama cu camelii
+101,Mircea Eliade,Nunta in cer
+102,Gabriel Garcia Marquez,Un veac de singuratate
+103,James Clavell,Shogun
+104,Lesley Downer,Puntea viselor
+105,Karl May,Winnetou
+106,Emil Cioran,Tratat de descompunere
+107,Gabriel Liiceanu,Nebunia de a gandi cu mintea ta
+108,Mircea Eliade,Noaptea de sanziene
+109,Paulo Coelho,Jurnalul unui mag

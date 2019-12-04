@@ -1,3 +1,5 @@
+from datetime import  date
+
 class Book:
     def __init__ (self, _ID, _Title, _Author):
         self.Id = _ID
@@ -75,8 +77,18 @@ class Rental:
         self.Id = _ID
         self.bookId = _BookId
         self.clientId = _ClientId
+
+        if type(_RentedDate) == str:
+            _RentedDate = self.string_to_date(_RentedDate)
         self.rentedDate = _RentedDate
+
+        if type(_ReturnedDate) == str:
+            _ReturnedDate = self.string_to_date(_ReturnedDate)
         self.returnedDate = _ReturnedDate
+
+    def string_to_date (self, d):
+        d = d.split(".")
+        return date(int(d[2]), int(d[1]), int(d[0]))
 
     @property
     def Id (self):
