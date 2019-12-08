@@ -60,6 +60,8 @@ class FileRepository (Repository):
         self._Class = Class
         self._loadFile()
 
+
+
     def _loadFile (self):
         file = open(self._filename, "r")
         lines = file.readlines()
@@ -70,15 +72,19 @@ class FileRepository (Repository):
             self.store(newObject)
         file.close()
 
-    def _storeFile (self):
+    def store_current_state (self):
         file = open(self._filename, "w")
-        for i in self.get_list():
-            pass
+        lines = ""
+        for i in self.get_list:
+            lines += i.to_file() + '\n'
+        file.write(lines)
+        file.close()
 
-book = Book("100","asd", "bsdf")
-list = vars(book).items()
-#for i in vars(book).items():
-    #str += i[1]
+    def store (self, object):
+        Repository.store(self, object)
+        self.store_current_state()
 
-str = "abc"
-print(str)
+    def delete  (self, object):
+        Repository.delete(self, object)
+
+        self.store_current_state()

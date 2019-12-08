@@ -39,6 +39,8 @@ class Book:
     def __lt__ (self, book):
         return int(self.Id) < int(book.Id)
 
+    def to_file (self):
+        return self.Id + ',' + self.title + ',' + self.author
 
 class Client:
     def __init__ (self, _ID, _Name):
@@ -71,6 +73,9 @@ class Client:
     
     def __lt__ (self, client):
         return int(self.Id) < int(client.Id)
+
+    def to_file (self):
+        return self.Id + ',' + self.name
 
 class Rental:
     def __init__ (self, _ID, _BookId, _ClientId, _RentedDate, _ReturnedDate = None):
@@ -139,3 +144,8 @@ class Rental:
     def __lt__ (self, rental):
         return int(self.Id) < int(rental.Id)
 
+    def to_file (self):
+        if self.returnedDate == None:
+            return self.Id + ',' + self.bookId + ',' + self.clientId + "," + str(self.rentedDate.strftime("%d.%m.%Y"))
+        else:
+            return self.Id + ',' + self.bookId + ',' + self.clientId + "," + str(self.rentedDate.strftime("%d.%m.%Y")) + ',' + str(self.returnedDate.strftime("%d.%m.%Y"))

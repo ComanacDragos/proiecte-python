@@ -6,14 +6,50 @@ import random
 class Main:
     def __init__ (self):
 
+        self.settings = self.read_settings()
+
+        if self.settings["repository"] == 'inmemory':
+            self.init_memory_repo()
+        elif self.settings["repository"] == "file":
+            self.init_file_repo()
+
+        self.start_menu_ui()
+
+    def read_settings (self):
+        file = open("settings.properties", "r")
+        lines = file.readlines()
+        settings = {}
+        for i in lines:
+            i = i.strip()
+            line = i.split(" = ")
+            settings[line[0]] = line[1]
+        return settings
+
+    def init_file_repo(self):
         self.undoService = UndoService()
-        
+
+        self.bookRepo = FileRepository(self.settings['books'], Book)
+        self.booksService = BooksService(self.bookRepo, self.undoService)
+
+        self.clientRepo = FileRepository(self.settings['clients'], Client)
+        self.clientsService = ClientsService(self.clientRepo, self.undoService)
+
+        self.rentalRepo = FileRepository(self.settings['rentals'], Rental)
+        self.rentalsService = RentalsService(self.rentalRepo, self.booksService, self.clientsService, self.undoService)
+
+        self.UI = UI(self.booksService, self.clientsService, self.rentalsService, self.undoService)
+
+
+    def init_memory_repo (self):
+
+        self.undoService = UndoService()
+
         self.bookRepo = Repository(self.init_book_repo())
         self.booksService = BooksService(self.bookRepo, self.undoService)
 
         self.clientRepo = Repository(self.init_client_repo())
         self.clientsService = ClientsService(self.clientRepo, self.undoService)
-       
+
         self.rentalRepo = Repository([])
         self.rentalsService = RentalsService(self.rentalRepo, self.booksService, self.clientsService, self.undoService)
         self.init_rentals()
@@ -22,10 +58,6 @@ class Main:
 
         self.UI = UI(self.booksService, self.clientsService, self.rentalsService, self.undoService)
 
-
-
-        self.start_menu_ui()
-        
     def init_book_repo (self):
         aux = []
         for i in range(100, 110):
