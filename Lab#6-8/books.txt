@@ -1,4 +1,4 @@
-91,xf,new author
+91,blablabla,blabla
 100,Alexandre Dumas,Dama cu camelii
 101,Mircea Eliade,Nunta in cer
 102,Gabriel Garcia Marquez,Un veac de singuratate

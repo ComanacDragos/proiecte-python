@@ -86,7 +86,9 @@ class BooksService:
             if i.Id == ID:
                 oldAuthor = i.author
                 i.author = author
-                self.booksRepo.store_current_state()
+                try:
+                    self.booksRepo.store_current_state()
+                except: pass
 
                 undoOp = FunctionCall(self.update_book_author, ID, oldAuthor)
                 redoOp = FunctionCall(self.update_book_author, ID, author)
@@ -115,7 +117,9 @@ class BooksService:
             if i.Id == ID:
                 oldTitle = i.title
                 i.title = title
-                self.booksRepo.store_current_state()
+                try:
+                    self.booksRepo.store_current_state()
+                except: pass
 
                 undoOp = FunctionCall(self.update_book_title, ID, oldTitle)
                 redoOp = FunctionCall(self.update_book_title, ID, title)
@@ -273,7 +277,9 @@ class ClientsService:
             if int(i.Id) == int(ID):
                 oldName = i.name
                 i.name = name
-                self.clientsRepo.store_current_state()
+                try:
+                    self.clientsRepo.store_current_state()
+                except: pass
 
                 undoOp = FunctionCall(self.update_client_name, ID, oldName)
                 redoOp = FunctionCall(self.update_client_name, ID, name)
@@ -415,7 +421,9 @@ class RentalsService:
                         oldDate = i.returnedDate
                         i.returnedDate = date
 
-                        self.rentalsRepo.store_current_state()
+                        try:
+                            self.rentalsRepo.store_current_state()
+                        except: pass
 
                         undoOp = FunctionCall(self.set_return_date_none, i)
                         redoOp = FunctionCall(self.return_book, ID, date)
@@ -431,7 +439,9 @@ class RentalsService:
 
     def set_return_date_none(self, rental):
         rental.returnedDate = None
-        self.rentalsRepo.store_current_state()
+        try:
+            self.rentalsRepo.store_current_state()
+        except:pass
 
     def sort_rentals (self):
         '''

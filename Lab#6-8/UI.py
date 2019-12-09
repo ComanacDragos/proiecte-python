@@ -62,7 +62,7 @@ x. Go back to main menu
         except IdDoesNotExist:
             print("\nThe required book does not exist\n")
         except badId:
-            print("\nThe id not a natural number\n")
+            print("\nThe id is not a natural number\n")
         except IndexError:
             print("\nThe id is not a natural number\n")
 
@@ -185,7 +185,7 @@ x. Go back to main menu
         except badId:
             print("\nThe id is not a natural number\n")
         except IndexError:
-            print("\nThe index is not a natural number\n")
+            print("\nThe id is not a natural number\n")
 
     def update_client_ui (self):
         '''

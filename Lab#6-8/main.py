@@ -8,10 +8,14 @@ class Main:
 
         self.settings = self.read_settings()
 
+        self.undoService = UndoService()
+
         if self.settings["repository"] == 'inmemory':
             self.init_memory_repo()
         elif self.settings["repository"] == "file":
             self.init_file_repo()
+
+        self.UI = UI(self.booksService, self.clientsService, self.rentalsService, self.undoService)
 
         self.start_menu_ui()
 
@@ -26,7 +30,6 @@ class Main:
         return settings
 
     def init_file_repo(self):
-        self.undoService = UndoService()
 
         self.bookRepo = FileRepository(self.settings['books'], Book)
         self.booksService = BooksService(self.bookRepo, self.undoService)
@@ -37,12 +40,8 @@ class Main:
         self.rentalRepo = FileRepository(self.settings['rentals'], Rental)
         self.rentalsService = RentalsService(self.rentalRepo, self.booksService, self.clientsService, self.undoService)
 
-        self.UI = UI(self.booksService, self.clientsService, self.rentalsService, self.undoService)
-
 
     def init_memory_repo (self):
-
-        self.undoService = UndoService()
 
         self.bookRepo = Repository(self.init_book_repo())
         self.booksService = BooksService(self.bookRepo, self.undoService)
@@ -55,8 +54,6 @@ class Main:
         self.init_rentals()
 
         self.undoService.clear_history()
-
-        self.UI = UI(self.booksService, self.clientsService, self.rentalsService, self.undoService)
 
     def init_book_repo (self):
         aux = []
