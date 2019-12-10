@@ -1,6 +1,6 @@
 from exceptions import *
 from domain import *
-
+import pickle
 
 class Repository:
     def __init__ (self, objectList):
@@ -88,3 +88,49 @@ class FileRepository (Repository):
         Repository.delete(self, object)
 
         self.store_current_state()
+
+class PickleRepository (Repository):
+    def __init__(self, filename, Class):
+        super().__init__([])
+        self._filename = filename
+        self._Class = Class
+
+        self._loadFile()
+
+    def store_current_state (self):
+        f = open(self._filename, "wb")
+        pickle.dump(self.get_list, f)
+        f.close()
+
+    def _loadFile(self):
+        try:
+            f = open(self._filename, "rb")
+            for i in pickle.load(f):
+                self.store(i)
+        except:
+            pass
+
+    def store(self, object):
+        Repository.store(self, object)
+        self.store_current_state()
+
+    def delete(self, object):
+        Repository.delete(self, object)
+        self.store_current_state()
+
+
+def init_pickle():
+    bookRepo = FileRepository("books.txt", Book)
+
+    clientRepo = FileRepository("clients.txt", Client)
+
+    rentalRepo = FileRepository("rentals.txt", Rental)
+
+    books = open("books.pickle", "wb")
+    pickle.dump(bookRepo, books)
+
+    clients = open("clients.pickle", "wb")
+    pickle.dump(clientRepo, clients)
+
+    rentals = open("rentals.pickle", "wb")
+    pickle.dump(rentalRepo, rentals)

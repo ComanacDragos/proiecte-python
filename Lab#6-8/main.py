@@ -14,6 +14,8 @@ class Main:
             self.init_memory_repo()
         elif self.settings["repository"] == "file":
             self.init_file_repo()
+        elif self.settings["repository"] == "pickle":
+            self.init_pickle_repo()
 
         self.UI = UI(self.booksService, self.clientsService, self.rentalsService, self.undoService)
 
@@ -29,7 +31,17 @@ class Main:
             settings[line[0]] = line[1]
         return settings
 
-    def init_file_repo(self):
+    def init_pickle_repo (self):
+        self.bookRepo = PickleRepository(self.settings['books'], Book)
+        self.booksService = BooksService(self.bookRepo, self.undoService)
+
+        self.clientRepo = PickleRepository(self.settings['clients'], Client)
+        self.clientsService = ClientsService(self.clientRepo, self.undoService)
+
+        self.rentalRepo = PickleRepository(self.settings['rentals'], Rental)
+        self.rentalsService = RentalsService(self.rentalRepo, self.booksService, self.clientsService, self.undoService)
+
+    def init_file_repo (self):
 
         self.bookRepo = FileRepository(self.settings['books'], Book)
         self.booksService = BooksService(self.bookRepo, self.undoService)
