@@ -61,7 +61,6 @@ class FileRepository (Repository):
         self._loadFile()
 
 
-
     def _loadFile (self):
         file = open(self._filename, "r")
         lines = file.readlines()
