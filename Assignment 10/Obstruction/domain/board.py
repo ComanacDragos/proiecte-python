@@ -36,6 +36,9 @@ class Board:
 
         return t.draw()
 
+    def __getitem__(self, item):
+        return self._board[item]
+
     def move (self, row, col, symbol):
         '''
         Function puts an X or an O at the  (x,y) coordinates of the board matrix
@@ -66,6 +69,9 @@ class Board:
         :param col: the column
         :return: True if all the neighbours are free, False otherwise
         '''
+
+        if row >= self.rows or col>= self.columns or row < 0 or col < 0:
+            return False
 
         if self.square (row, col) != 0:
             return False

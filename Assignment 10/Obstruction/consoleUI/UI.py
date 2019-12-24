@@ -48,7 +48,8 @@ class UI:
                 ok = 1
 
     def difficulty (self):
-        self.ai = EasyAI(self._board)
+        #self.ai = EasyAI(self._board)
+        self.ai = BetterAI(self._board)
 
     def ui_player_move (self):
         x = input("Give row number: ").strip()
@@ -60,7 +61,13 @@ class UI:
 
     def ui_start_console (self):
         if self.player == "O":
-            self.ui_computer_move()
+            try:
+                self.ui_computer_move()
+            except GameOver as err:
+                print(self._controller.get_board())
+                print(err)
+                return
+
         while True:
             try:
                 #if self.player == "X":

@@ -11,8 +11,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Python Unit Test" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -43,7 +43,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="UI" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="GUI" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Assignment 10" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -51,11 +51,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Obstruction/consoleUI" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Obstruction/GUI" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Obstruction/consoleUI/UI.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Obstruction/GUI/GUI.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -106,6 +106,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests for test_AI.test_AI.test_better_ai_generate_move" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Assignment 10" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Obstruction/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_AI.test_AI.test_better_ai_generate_move&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unittests for test_AI.test_AI.test_generate_move" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="Assignment 10" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -120,27 +134,13 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests in test_AI.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="Assignment 10" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Obstruction/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/Obstruction/tests/test_AI.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.GUI" />
+        <item itemvalue="Python tests.Unittests for test_AI.test_AI.test_better_ai_generate_move" />
         <item itemvalue="Python.computerAI" />
-        <item itemvalue="Python.UI" />
         <item itemvalue="Python tests.Unittests for test_AI.test_AI.test_generate_move" />
-        <item itemvalue="Python tests.Unittests in test_AI.py" />
       </list>
     </recent_temporary>
   </component>

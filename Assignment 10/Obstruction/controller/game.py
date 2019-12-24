@@ -46,7 +46,7 @@ class Controller:
             raise BadMove("Given square is taken")
 
         if self._board.valid_move(x,y) == False:
-            raise BadMove("One of the neighbours is taken")
+            raise BadMove("One of the neighbors is taken")
 
         self._board.move(x, y, self._playerSymbol)
 
