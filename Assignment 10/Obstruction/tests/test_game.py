@@ -28,6 +28,5 @@ class test_game(unittest.TestCase):
         with self.assertRaises(GameOver):
             move(3, 3)
 
-
 if __name__ == '__main__':
     unittest.main()

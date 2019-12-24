@@ -4,7 +4,8 @@ class UI:
         self.first()
         self.init_board_size()
         self._board = Board(self.rows, self.col)
-        self._controller = Controller(self._board, self.player, self.computer)
+        self.difficulty()
+        self._controller = Controller(self._board, self.player, self.computer, self.ai)
 
 
     def first (self):
@@ -46,20 +47,28 @@ class UI:
             else:
                 ok = 1
 
+    def difficulty (self):
+        self.ai = EasyAI(self._board)
+
     def ui_player_move (self):
         x = input("Give row number: ").strip()
         y = input("Give column numner: ").strip()
+        self._controller.player_move(x, y)
 
-        try:
-            self._controller.player_move(x, y)
-        except BadMove as err:
-            print(err)
+    def ui_computer_move (self):
+        self._controller.computer_move()
 
     def ui_start_console (self):
+        if self.player == "O":
+            self.ui_computer_move()
         while True:
-            print(self._controller.get_board())
             try:
+                #if self.player == "X":
+                print(self._controller.get_board())
                 self.ui_player_move()
+                self.ui_computer_move()
+            except BadMove as err:
+                print(err)
             except GameOver as err:
                 print(self._controller.get_board())
                 print(err)

@@ -1,12 +1,15 @@
 from Obstruction.domain.board import *
 from Obstruction.controller.validator import *
+from Obstruction.controller.computerAI import *
+
 
 class Controller:
-    def __init__(self, board, player, computer):
+    def __init__(self, board, player, computer, computerAI):
         self._board = board
         self._validator = Validator()
         self._playerSymbol = player
         self._computerSymbol = computer
+        self._computerAI = computerAI
 
     def get_board (self):
         '''
@@ -22,9 +25,14 @@ class Controller:
         :param y: the column
         :return: None
         '''
-        self._validator.natural_number(x)
-        self._validator.natural_number(y)
-
+        try:
+            self._validator.natural_number(x)
+        except:
+            raise BadMove("The row number must be a natural number different from 0")
+        try:
+            self._validator.natural_number(y)
+        except:
+            raise BadMove("The column nummber must be a natural number different from 0")
         x = int(x)-1
         y = int(y)-1
 
@@ -45,5 +53,15 @@ class Controller:
         if self._board.is_won() == True:
             raise GameOver("Game is won by the player")
 
+    def computer_move(self):
+        '''
+        Generates the computer move and executes it
+        :return:
+        '''
+        move = self._computerAI.generate_move()
+        self._board.move(move[0], move[1], self._computerSymbol)
+
+        if self._board.is_won() == True:
+            raise GameOver("Game is won by the computer")
 
 
