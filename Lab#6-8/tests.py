@@ -1,6 +1,6 @@
 from service import *
 import unittest
-
+import random
 
 class test_repo_service (unittest.TestCase):
     def test_repo_valid_id (self):
@@ -140,5 +140,47 @@ class test_repo_service (unittest.TestCase):
         service.update_client_name("101", "newName")
 
         self.assertEqual(service.clientsRepo[1].name, "newName")
+
+    def test_Iterable (self):
+        iterable = Iterable([1,2,3])
+        iterable = iter(iterable)
+
+        self.assertEqual(next(iterable), 1)
+        self.assertEqual(next(iterable), 2)
+
+        iterable[2] = 4
+        self.assertEqual(next(iterable), 4)
+
+        iterable.append(5)
+        self.assertEqual(next(iterable), 5)
+
+        with self.assertRaises(StopIteration):
+            next(iterable)
+
+        iterable[2] = 3
+        del iterable[3]
+        count = 1
+        for i in iterable:
+            self.assertEqual(i, count)
+            count += 1
+
+    def test_gnome_sort (self):
+        for i in range(10):
+            l = random.sample(range(0, 1000), 900)
+
+            gnomeSort(l, lambda x,y: x<=y)
+            i = 1
+            while i < len(l)-1:
+                self.assertLess(l[i-1], l[i])
+                i += 1
+
+    def test_filter (self):
+        l = [1,2,3,4,453,234,234,234,5,12,43,400,6,7]
+        filter(l, lambda l,r,obj: obj >= l and obj <= r, 8, 500)
+        count = 1
+        for i in l:
+            self.assertEqual(i, count)
+            count += 1
+
 
 

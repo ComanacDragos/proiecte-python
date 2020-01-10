@@ -1,10 +1,11 @@
 from exceptions import *
 from domain import *
+from iterable import *
 import pickle
 
 class Repository:
     def __init__ (self, objectList):
-        self.objectList = objectList
+        self.objectList = Iterable(objectList)
     
     def valid_ID (self, ID):
         '''
@@ -41,7 +42,8 @@ class Repository:
         if index == None:
             raise IdDoesNotExist("No such object")
             
-        self.get_list.pop(self.find(id))
+        #self.get_list.pop(self.find(id))
+        del self.get_list[self.find(id)]
     
     def __getitem__ (self, value):
         return self.get_list[value]
@@ -50,8 +52,15 @@ class Repository:
     def __len__ (self):
         return len(self.get_list)
 
+    @staticmethod
+    def comparison (x,y):
+        if x > y:
+            return False
+        return True
+
     def sort (self):
-        self.get_list.sort()
+        #self.get_list.sort()
+        gnomeSort(self.get_list, self.comparison)
 
 class FileRepository (Repository):
     def __init__ (self, filename, Class):
@@ -133,3 +142,4 @@ def init_pickle():
 
     rentals = open("rentals.pickle", "wb")
     pickle.dump(rentalRepo, rentals)
+

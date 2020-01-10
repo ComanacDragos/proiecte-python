@@ -4,7 +4,8 @@ from Obstruction.controller.game import *
 class test_game(unittest.TestCase):
     def test_player_move(self):
         b = Board(3,3)
-        controller = Controller(b, "X", "O")
+        ai = BetterAI(b)
+        controller = Controller(b, "X", "O", ai)
 
         move = controller.player_move
 

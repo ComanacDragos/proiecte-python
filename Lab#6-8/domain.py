@@ -149,3 +149,4 @@ class Rental:
             return self.Id + ',' + self.bookId + ',' + self.clientId + "," + str(self.rentedDate.strftime("%d.%m.%Y"))
         else:
             return self.Id + ',' + self.bookId + ',' + self.clientId + "," + str(self.rentedDate.strftime("%d.%m.%Y")) + ',' + str(self.returnedDate.strftime("%d.%m.%Y"))
+
