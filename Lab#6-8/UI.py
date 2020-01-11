@@ -236,6 +236,7 @@ x. Go back to main menu
 1. List rentals
 2. Rent a book
 3. Return a book
+4. Filter rentals
 x. Go back to main menu
         '''
         print(menu)
@@ -315,11 +316,23 @@ x. Go back to main menu
             except badReturnDate:
                 print("\nThe book was borrowed in that period\n")
 
+    def ui_filter_rentals (self):
+        l = input("Give left boundary: ").strip()
+        r = input("Give right boundary: ").strip()
+
+        try:
+            self.rentalsService.filter_rentals(l, r)
+            print("The items were printed succesfully")
+        except badId:
+            print("\nThe boundaries are not natural numbers\n")
+
+
     def start_rental_ui (self):
         commands = {
             "1" : self.list_rentals,
             "2" : self.ui_add_rental,
             "3" : self.ui_return_book,
+            "4" : self.ui_filter_rentals
         }
     
         while True:

@@ -23,6 +23,10 @@ class Repository:
     def get_list (self):
         return self.objectList
 
+    @get_list.setter
+    def get_list (self, list):
+        self.objectList = list
+
     def store (self, object):
         self.valid_ID(object.Id)
         for i in self.get_list:
@@ -47,7 +51,6 @@ class Repository:
     
     def __getitem__ (self, value):
         return self.get_list[value]
-     
 
     def __len__ (self):
         return len(self.get_list)
@@ -61,6 +64,7 @@ class Repository:
     def sort (self):
         #self.get_list.sort()
         gnomeSort(self.get_list, self.comparison)
+
 
 class FileRepository (Repository):
     def __init__ (self, filename, Class):

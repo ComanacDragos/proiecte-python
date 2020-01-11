@@ -560,6 +560,34 @@ class RentalsService:
 
         self.undoService.record(operations)
 
+
+    def filter_key_id (self, l, r, obj):
+        if obj.Id < l or obj.Id > r:
+            return True
+        return False
+
+    def set_rentals (self, list):
+        self.rentalsRepo.get_list = list
+
+
+    def filter_rentals (self, l, r):
+        self.rentalsRepo.valid_ID(l)
+        self.rentalsRepo.valid_ID(r)
+
+        oldRentals = self.rentalsRepo.get_list[:]
+
+        filter(self.rentalsRepo.get_list, self.filter_key_id, l, r)
+
+        newRentals = self.rentalsRepo.get_list[:]
+
+        f_undo = FunctionCall(self.set_rentals, oldRentals)
+        f_redo = FunctionCall(self.set_rentals, newRentals)
+        operation = Operation(f_undo, f_redo)
+
+        self.undoService.record(operation)
+
+
+
 class FunctionCall:
     def __init__ (self, function, *parameters):
         self.function = function
@@ -633,4 +661,7 @@ class UndoService:
     def clear_history (self):
         self.history.clear()
         self.index = 0
+
+
+
 
