@@ -34,6 +34,9 @@ class Iterable:
 def gnomeSort(list, key):
     index = 0
     cont = 0
+    if len(list) == 1:
+        return
+
     while index < len(list):
         cont += 1
 
@@ -63,6 +66,35 @@ def key (l,r, obj):
     if obj < l or obj > r:
         return True
     return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 """
 l = [1, 2, 3, 4, 453, 234, 234, 234, 5, 12, 43, 5, 6, 7]

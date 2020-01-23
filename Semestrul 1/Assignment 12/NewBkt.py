@@ -89,3 +89,5 @@ print("Recursive:")
 b.bkt(0)
 print("\nIterative:")
 b.iterative_bkt()
+
+x = input("Press any key to exit")

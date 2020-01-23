@@ -322,7 +322,7 @@ x. Go back to main menu
 
         try:
             self.rentalsService.filter_rentals(l, r)
-            print("The items were printed succesfully")
+            print("The items were filtered succesfully")
         except badId:
             print("\nThe boundaries are not natural numbers\n")
 
