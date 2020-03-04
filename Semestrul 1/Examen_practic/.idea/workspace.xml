@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="981521ab-f326-46d5-bdb9-ef75549bab5e" name="Default Changelist" comment="" />
+    <list default="true" id="d6169320-e2df-4cd5-b711-696e64a76331" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,16 +12,17 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="Python Unit Test" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="ProjectId" id="1WmksCB5fB9y2sDvFQMCLeBFBhZ" />
+  <component name="ProjectId" id="1XAmN4tn7plXxCzxYorNPFl18BT" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Daily interview pro" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RunDashboard">
@@ -36,9 +37,9 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.root_to_leaf">
-    <configuration name="flatten tree" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Daily interview pro" />
+  <component name="RunManager" selected="Python.main">
+    <configuration name="UI" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Examen_practic" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -49,7 +50,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/flatten tree.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UI.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -58,8 +59,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="largest range" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Daily interview pro" />
+    <configuration name="domain" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Examen_practic" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -70,7 +71,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/largest range.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/domain.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -79,8 +80,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="nthfib" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Daily interview pro" />
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Examen_practic" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -91,7 +92,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nthfib.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -100,55 +101,41 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="river" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Daily interview pro" />
+    <configuration name="Unittests for test.MyTestCase.test_neighbors" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Examen_practic" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/river.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test.MyTestCase.test_neighbors&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="root_to_leaf" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Daily interview pro" />
+    <configuration name="Unittests for test.MyTestCase.test_place_stars" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Examen_practic" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/root_to_leaf.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test.MyTestCase.test_place_stars&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.root_to_leaf" />
-        <item itemvalue="Python.flatten tree" />
-        <item itemvalue="Python.largest range" />
-        <item itemvalue="Python.river" />
-        <item itemvalue="Python.nthfib" />
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python tests.Unittests for test.MyTestCase.test_place_stars" />
+        <item itemvalue="Python.UI" />
+        <item itemvalue="Python.domain" />
+        <item itemvalue="Python tests.Unittests for test.MyTestCase.test_neighbors" />
       </list>
     </recent_temporary>
   </component>
@@ -157,11 +144,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="981521ab-f326-46d5-bdb9-ef75549bab5e" name="Default Changelist" comment="" />
-      <created>1579762361694</created>
+      <changelist id="d6169320-e2df-4cd5-b711-696e64a76331" name="Default Changelist" comment="" />
+      <created>1580497229885</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1579762361694</updated>
+      <updated>1580497229885</updated>
     </task>
     <servers />
   </component>
