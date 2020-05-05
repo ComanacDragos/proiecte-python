@@ -3,7 +3,7 @@
 Projects for Fundamentals of Programming course, first semester<br/>
 
 Domain-driven design<br/>
-  -Book-Manager<br/>
+ &nbsp;&nbsp;&nbsp;&nbsp -Book-Manager<br/>
   -Fawlty Towers#2<br/>
 
    Games:<br/>
