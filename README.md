@@ -1,12 +1,14 @@
 # Python-Projects
 <br/>
 Projects for Fundamentals of Programming course, first semester<br/>
-Games:<br/>
-  -Chaos and order<br/>
-  -Obstruction<br/>
-  -Scramble<br/>
-  -Practical_Exam<br/>
-<br/>
+
 Domain-driven design<br/>
-  -Book-Manager<br/>
-  -Fawlty Towers#2<br/>
+ &nbsp;&nbsp;&nbsp;&nbsp;-Book-Manager<br/>
+ &nbsp;&nbsp;&nbsp;&nbsp;-Fawlty Towers#2<br/>
+
+   &nbsp;&nbsp;&nbsp;&nbsp;Games:<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Chaos and order<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Obstruction<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Scramble<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Practical_Exam<br/>
+<br/>
