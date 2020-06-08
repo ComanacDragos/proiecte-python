@@ -1,12 +1,13 @@
 from texttable import Texttable
+import math
 
 class Matrix:
-    def __init__(self, lines, columns):
+    def __init__(self, lines, columns, defaultValue = 0):
         self._matrix = []
         self._lines = lines
         self._columns = columns
         for i in range(lines):
-            line = [0] * columns
+            line = [defaultValue] * columns
             self._matrix.append(line)
 
     @property
@@ -50,6 +51,14 @@ class Matrix:
                 for k in range(self.lines):
                     sum += self[i][k] * other[k][j]
                 aux[i][j] = sum
+        return aux
+
+    def extend(self):
+        aux=Matrix(self.lines, self.lines, math.inf)
+        for i in range(self.lines):
+            for j in range(self.lines):
+                for k in range(self.lines):
+                    aux[i][j] = min(aux[i][j], aux[i][k] +  self._matrix[k][j])
         return aux
 
     def power(self, power):

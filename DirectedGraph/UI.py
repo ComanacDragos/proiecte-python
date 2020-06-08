@@ -11,6 +11,7 @@ class UI:
 2. Change the graph
 3. Traversals
 4. Walks
+5. DAG
 x. Exit
  """
         print(menu)
@@ -70,7 +71,18 @@ x. Exit traversal menu
 3. Forward Dijkstra
 4. Backwards Dijkstra
 5. Bellman_Ford
+6. Minimum cost hamiltonian cycle
 x. Exit walks menu
+        """
+        print(menu)
+
+    def DAG_menu(self):
+        menu="""
+1. State of the graph
+2. Topological sort using predecessor counters
+3. Highest cost path
+4. Number of distinct paths
+x. Exit DAG menu
         """
         print(menu)
 
@@ -377,6 +389,48 @@ x. Exit walks menu
         except GraphException as err:
             print(err)
 
+    def UI_topological_sort_predecessor_count(self):
+        sort = self._controller.topological_sort_predecessor_counter()
+        if sort == None:
+            print("The graph has cycles")
+            return
+        for i in sort:
+            print(i, end=" ")
+        print()
+
+    def UI_highest_cost_path(self):
+        start = input("Give start vertex: ")
+        end = input("Give end vertex: ")
+        try:
+            info = self._controller.highest_cost_path(start, end)
+            path = info[0]
+            print(path[0], end='')
+            path.pop(0)
+            for i in path:
+                print("->", i, end='')
+            print(" Cost: ", info[1])
+        except GraphException as err:
+            print(err)
+
+    def UI_distinct_paths(self):
+        start = input("Give start vertex: ")
+        end = input("Give end vertex: ")
+        try:
+            print("Number of paths: " + str(self._controller.distinct_paths(start, end)))
+        except GraphException as err:
+            print(err)
+
+    def UI_TSP(self):
+        try:
+            info = self._controller.TSP()
+            path = info[0]
+            print(path[0],end='')
+            path.pop(0)
+            for i in path:
+                print("->", i, end='')
+            print(" Cost: ", info[1])
+        except GraphException as err:
+            print(err)
 
     def start_information_menu(self):
         commands = {
@@ -452,6 +506,7 @@ x. Exit walks menu
             "3": self.UI_forward_dijkstra,
             "4": self.UI_backwards_dijkstra,
             "5": self.UI_Bellman_Ford,
+            "6": self.UI_TSP,
         }
 
         while (True):
@@ -464,12 +519,31 @@ x. Exit walks menu
             else:
                 print("Invalid command\n")
 
+    def start_DAG_menu(self):
+        commands = {
+            "1":self.UI_print_state,
+            "2":self.UI_topological_sort_predecessor_count,
+            "3":self.UI_highest_cost_path,
+            "4":self.UI_distinct_paths,
+        }
+        while (True):
+            self.DAG_menu()
+            choice = input("> ")
+            if choice in commands:
+                commands[choice]()
+            elif choice == "x":
+                return
+            else:
+                print("Invalid command\n")
+
+
     def start(self):
         commands ={
             "1": self.start_information_menu,
             "2": self.start_modify_menu,
             "3": self.start_traversal_menu,
-            "4": self.start_walks_menu
+            "4": self.start_walks_menu,
+            "5": self.start_DAG_menu
         }
         while True:
             self.menu()

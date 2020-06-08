@@ -167,20 +167,87 @@ def Bellman_Ford(graph, start):
 
     return (prev, dist)
 
+def Floyd_Warshall(graph, start, end):
+    PathMatrix = Matrix(graph.vertices, graph.vertices, 0)
+    CostMatrix = Matrix(graph.vertices, graph.vertices, math.inf)
+    for i in range(graph.vertices):
+        CostMatrix[i][i] = 0
 
-'''
-g=DoubleDictGraph()
-loadGraph(g, "Graphs/Example2.txt")
-bf = Bellman_Ford(g, 0)
-print(bf)
-for i in bf[0].keys():
-    print(i, bf[0][i])
+    for i in graph.get_costs():
+        x=i[0]
+        y=i[1]
+        CostMatrix[x][y] = graph.get_costs()[i]
 
-print()
+    for i in range(graph.vertices):
+        for j in range(graph.vertices):
+            if i != j and CostMatrix[i][j] != math.inf:
+                PathMatrix[i][j] = i
 
-for i in bf[1].keys():
-    print(i, bf[1][i])
+    for k in range(graph.vertices):
+        for i in range(graph.vertices):
+            for j in range(graph.vertices):
+                if CostMatrix[i][j] > CostMatrix[i][k] + CostMatrix[k][j]:
+                    CostMatrix[i][j] = CostMatrix[i][k] + CostMatrix[k][j]
+                    PathMatrix[i][j] = PathMatrix[k][j]
 
-loadGraph(g, "Graphs/graph_negative_cost_cycle.txt")
-print(Bellman_Ford(g, 0))
-'''
+
+    path = []
+
+    path.insert(0, end)
+
+    while path[0] != start:
+        path.insert(0, PathMatrix[start][path[0]])
+
+    print(path, CostMatrix[start][end])
+
+def save_sol(graph, path, history):
+    cost=0
+    for i in range(len(path)):
+        if(i!= len(path)-1):
+            cost += graph.get_cost(path[i], path[i+1])
+    #    print(path[i], end=' ')
+    #print(cost)
+    #print()
+    if cost < history[1]:
+        history[0] =path[:]
+        history[1] = cost
+
+def consistent(graph, path, k):
+    if len(path) > graph.vertices+1:
+        return False
+    if len(path) == 0 or (len(path) == 1 and path[0] == 0):
+        return True
+
+    if path[0] != 0:
+        return False
+
+    if len(path) != graph.vertices +1:
+        return graph.is_edge(path[-2], k) and k not in path[:-1]
+    else:
+        return graph.is_edge(path[-2], k)
+
+def sol(graph, path):
+    if len(path) < 3:
+        return False
+    if path[0] == path[-1] and len(path) == graph.vertices+1:
+        return True
+    return False
+
+def bkt(graph, path, history):
+    path.append(0)
+    for i in graph.get_vertices():
+        path[-1] = i
+        if consistent(graph, path, i):
+            if sol(graph, path):
+                save_sol(graph, path[:], history)
+            else:
+                bkt(graph, path[:], history)
+
+def TSP_bkt(graph):
+    history = [[],math.inf]
+    bkt(graph, [], history)
+    return history
+
+#g = DoubleDictGraph()
+#loadGraph(g, "Graphs/Hamiltonian3.txt")
+#rint(TSP_bkt(g))
