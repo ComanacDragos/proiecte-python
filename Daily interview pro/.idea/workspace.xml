@@ -36,8 +36,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.root_to_leaf">
-    <configuration name="flatten tree" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.Sudoku check">
+    <configuration name="Deepest node" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Daily interview pro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -49,7 +49,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/flatten tree.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Deepest node.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -58,7 +58,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="largest range" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Fix Brackets" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Daily interview pro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -70,7 +70,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/largest range.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Fix Brackets.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -79,7 +79,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="nthfib" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Number of Meeting Rooms" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Daily interview pro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -91,7 +91,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/nthfib.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Number of Meeting Rooms.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -100,7 +100,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="river" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Power Function" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Daily interview pro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -112,7 +112,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/river.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Power Function.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -121,7 +121,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="root_to_leaf" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Sudoku check" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Daily interview pro" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -133,7 +133,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/root_to_leaf.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sudoku check.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -144,11 +144,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.root_to_leaf" />
-        <item itemvalue="Python.flatten tree" />
-        <item itemvalue="Python.largest range" />
-        <item itemvalue="Python.river" />
-        <item itemvalue="Python.nthfib" />
+        <item itemvalue="Python.Sudoku check" />
+        <item itemvalue="Python.Power Function" />
+        <item itemvalue="Python.Fix Brackets" />
+        <item itemvalue="Python.Deepest node" />
+        <item itemvalue="Python.Number of Meeting Rooms" />
       </list>
     </recent_temporary>
   </component>

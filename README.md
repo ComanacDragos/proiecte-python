@@ -14,3 +14,5 @@ Domain-driven design<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Bligons-PyQt5<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Bligons-pygame<br/>
 <br/>
+Computer networks programming<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-Client Server problems<br/>
